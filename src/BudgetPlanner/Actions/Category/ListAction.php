@@ -3,11 +3,6 @@
 namespace BudgetPlanner\Actions\Category;
 
 use BudgetPlanner\Actions\BaseRenderAction;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Psr7\Response;
-use Slim\Psr7\Request;
-use Slim\Views\PhpRenderer;
-
 use \BudgetPlanner\Model\Category;
 
 final class ListAction extends BaseRenderAction
