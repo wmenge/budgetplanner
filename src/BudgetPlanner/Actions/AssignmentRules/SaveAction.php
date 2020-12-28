@@ -2,19 +2,20 @@
 
 namespace BudgetPlanner\Actions\AssignmentRules;
 
-use BudgetPlanner\Actions\BaseRenderAction;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
+use Slim\Flash\Messages;
 
 use \BudgetPlanner\Service\AssignmentRuleService;
 use \BudgetPlanner\Model\AssignmentRule;
 
 final class SaveAction
 {
-	public function __construct(AssignmentRuleService $service)
+	public function __construct(CategoryService $service, Messages $flash)
     {
         $this->service = $service;
+        $this->flash = $flash;
     }
 
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
@@ -23,10 +24,11 @@ final class SaveAction
 
         // todo: autowire
         $rule = ($data['id']) ? AssignmentRule::find($data['id']) : new AssignmentRule();
-
         $this->service->map($data, $rule);
 
         $rule->save();
+
+        $this->flash->addMessage('success', 'Saved rule');
 
         return $response->withHeader('Location', '/categories/' . $args['category_id'] . '/rules')
                 ->withStatus(303);

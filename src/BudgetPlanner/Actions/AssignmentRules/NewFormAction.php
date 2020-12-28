@@ -3,7 +3,6 @@
 namespace BudgetPlanner\Actions\AssignmentRules;
 
 use BudgetPlanner\Actions\BaseRenderAction;
-
 use \BudgetPlanner\Model\Category;
 
 final class NewFormAction extends BaseRenderAction

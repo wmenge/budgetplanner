@@ -2,20 +2,20 @@
 
 namespace BudgetPlanner\Actions\Transaction;
 
-use BudgetPlanner\Actions\BaseRenderAction;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
-use Slim\Views\PhpRenderer;
+use Slim\Flash\Messages;
 
 use \BudgetPlanner\Service\TransactionService;
 use \BudgetPlanner\Model\Transaction;
 
 final class SaveAction
 {
-	public function __construct(TransactionService $service)
+	public function __construct(TransactionService $service, Messages $flash)
     {
         $this->service = $service;
+        $this->flash = $flash;
     }
 
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
@@ -27,6 +27,8 @@ final class SaveAction
         $this->service->map($data, $transaction);
 
         $transaction->save();
+
+        $this->flash->addMessage('success', 'Saved transaction');
 
         return $response->withHeader('Location', '/transactions')
                 ->withStatus(303);
