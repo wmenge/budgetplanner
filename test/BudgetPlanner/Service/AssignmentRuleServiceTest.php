@@ -39,7 +39,7 @@ class AssignmentRuleServiceTest extends TestCase {
 		$this->assignmentRuleService->map($data, $rule);
 
 		$this->assertEquals(1, $rule->category_id);
-		$this->assertEquals('field', $rule->field);
+		c$this->assertEquals('field', $rule->field);
 		$this->assertEquals('pattern', $rule->pattern);
 	}
 

@@ -3,7 +3,6 @@
 namespace BudgetPlanner\Actions\Transaction;
 
 use BudgetPlanner\Actions\BaseRenderAction;
-
 use \BudgetPlanner\Model\Transaction;
 use \BudgetPlanner\Model\Category;
 

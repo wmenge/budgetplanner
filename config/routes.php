@@ -51,7 +51,7 @@ return function (App $app) {
     $app->post('/transactions', BudgetPlanner\Actions\Transaction\SaveAction::class);
     $app->post('/transactions/upload', BudgetPlanner\Actions\Transaction\UploadAction::class);
     // TODO: Should be DELETE, but cannot be natively sent by HTML form
-    $app->get('/transactions/{id}/delete', BudgetPlanner\Action\Transaction\DeleteAction::class);
+    $app->get('/transactions/{id}/delete', BudgetPlanner\Actions\Transaction\DeleteAction::class);
 
     // Reporting
 

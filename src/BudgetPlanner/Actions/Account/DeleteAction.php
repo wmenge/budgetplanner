@@ -2,7 +2,6 @@
 
 namespace BudgetPlanner\Actions\Account;
 
-use BudgetPlanner\Actions\BaseRenderAction;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
