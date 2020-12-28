@@ -1,0 +1,3 @@
+"IBAN/BBAN","Munt","BIC","Volgnr","Datum","Rentedatum","Bedrag","Saldo na trn","Tegenrekening IBAN/BBAN","Naam tegenpartij","Naam uiteindelijke partij","Naam initiërende partij","BIC tegenpartij","Code","Batch ID","Transactiereferentie","Machtigingskenmerk","Incassant ID","Betalingskenmerk","Omschrijving-1","Omschrijving-2","Omschrijving-3","Reden retour","Oorspr bedrag","Oorspr munt","Koers"
+"BANK1234","EUR","BANKBIC",1,"2020-01-01","2020-01-01","-100,00","100,00","CONTRA1234","Other Party",,,,,,,,,,"Some Description"
+"BANK1234","EUR","BANKBIC",2,"2020-01-02","2020-01-02","+50,00","+150,00","CONTRA1234","Other Party",,,,,,,,,,"Some Other Description"

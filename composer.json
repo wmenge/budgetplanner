@@ -1,0 +1,28 @@
+{
+    "name": "wilcomenge/budgetplanner",
+    "description": "Budget planner",
+    "type": "project",
+    "authors": [
+        {
+            "name": "wilco menge",
+            "email": "wilcomenge@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^8.17",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.3",
+        "consolidation/robo": "^2.2",
+        "php-di/slim-bridge": "^3.1",
+        "slim/php-view": "^3.0",
+        "slim/flash": "^0.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "BudgetPlanner\\": "src/BudgetPlanner"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    }
+}
