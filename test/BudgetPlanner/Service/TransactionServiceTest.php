@@ -14,7 +14,7 @@ class TransactionServiceTest extends TestCase {
 	protected function setUp(): void {
 		// todo: use unit test configuration
 		$builder = new \DI\ContainerBuilder();
-	        $builder->addDefinitions(__DIR__ . '/../../../config/container.php');
+	        $builder->addDefinitions(__DIR__ . '/../../../config/container-test.php');
 	        $this->another_container = $builder->build();
 	    
         $dbFacade = $this->another_container->get(DatabaseFacade::class);
