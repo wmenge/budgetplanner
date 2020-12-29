@@ -1,4 +1,4 @@
-<h3>Transactions</h3>
+<h3 class="display-4">Transactions</h3>
 
 <div class="btn-toolbar">
 	<?php if (@$match): ?>
@@ -50,7 +50,7 @@
 		</div>-->
 	<?php endif; ?>
 
-<table class="table table-striped table-hover">
+<table class="table table-hover">
 	<thead>
 		<tr>
 			<!--<th><input class="form-check-input" type="checkbox" value="" id="select" name="select"></th>-->
@@ -64,7 +64,7 @@
 	</thead>
 	<tbody>
 		<?php foreach ($transactions as $transaction): ?>
-			<tr>
+			<tr class="<?= $transaction->ownAccount ? 'table-secondary text-muted' : '' ?>">
 				<!--<td><input class="form-check-input" type="checkbox" value="" id="select" name="select"></td>-->
 				<td><?= $transaction->account->iban ?></td>
 				<td><?= implode('<br />', array_filter([ @$transaction->counter_account_iban,  @$transaction->counter_account_name])) ?></td>

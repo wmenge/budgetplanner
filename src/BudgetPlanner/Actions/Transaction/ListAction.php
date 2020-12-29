@@ -5,6 +5,7 @@ namespace BudgetPlanner\Actions\Transaction;
 use BudgetPlanner\Actions\BaseRenderAction;
 use Slim\Views\PhpRenderer;
 use Slim\Flash\Messages;
+use BudgetPlanner\Service\TransactionService;
 use BudgetPlanner\Service\AssignmentRuleService;
 use \BudgetPlanner\Model\Transaction;
 use \BudgetPlanner\Model\Category;
@@ -13,10 +14,11 @@ use \BudgetPlanner\Model\AssignmentRule;
 
 final class ListAction extends BaseRenderAction
 {
-	public function __construct(PhpRenderer $renderer, AssignmentRuleService $service, Messages $flash)
+	public function __construct(PhpRenderer $renderer, AssignmentRuleService $ruleService, TransactionService $transactionService, Messages $flash)
     {
     	$this->renderer = $renderer;
-        $this->service = $service;
+        $this->ruleService = $ruleService;
+        $this->transactionService = $transactionService;
         $this->flash = $flash;
     }
 
@@ -30,13 +32,19 @@ final class ListAction extends BaseRenderAction
             $transactions = $this->match($transactions);
         }
 
+        // Add own account status to data
+        foreach ($transactions as $transaction) {
+            $transaction->ownAccount = $this->transactionService->ownAccount($transaction);
+        }
+
         return $this->renderer->fetch('transaction-list-fragment.php', [
             'filter' => $filter,
             'uncategorized_count' => Transaction::whereNull('category_id')->count(),
             'categorized_count' => Transaction::whereNotNull('category_id')->count(),
             'transactions' => $transactions,
             'categories' => Category::all(),
-            'match' => $match
+            'match' => $match,
+
         ]);
     }
 
@@ -46,7 +54,7 @@ final class ListAction extends BaseRenderAction
 
     protected function match($transactions) {
 
-        $transactions = $this->service->match($transactions, AssignmentRule::all());
+        $transactions = $this->ruleService->match($transactions, AssignmentRule::all());
 
         // TODO: Nice way
         $matchedTransactions = 0;
