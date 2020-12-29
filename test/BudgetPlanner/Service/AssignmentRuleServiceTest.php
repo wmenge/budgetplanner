@@ -54,9 +54,7 @@ class AssignmentRuleServiceTest extends TestCase {
  		$category->description = "A category";
     	$category->save();
 
-    	//print_r($category->getAttributes());
-    	
-        $rule = new AssignmentRule();
+    	$rule = new AssignmentRule();
         $rule->category()->associate($category);
         $rule->field = 'description';
         $rule->pattern = 'Other';
@@ -64,11 +62,8 @@ class AssignmentRuleServiceTest extends TestCase {
 
         $matches = $this->assignmentRuleService->match(Transaction::all(), AssignmentRule::all());
 
-        print_r($matches[0]->category);
-
         $this->assertEquals(null, $matches[0]->category);
         $this->assertEquals($category->id, $matches[1]->category->id);
-
 	}
 
 }

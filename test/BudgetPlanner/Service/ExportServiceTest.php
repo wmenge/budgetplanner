@@ -15,8 +15,8 @@ class ExportServiceTest extends TestCase {
 	protected function setUp(): void {
 		// todo: use unit test configuration
 		$builder = new \DI\ContainerBuilder();
-	        $builder->addDefinitions(__DIR__ . '/../../../config/container-test.php');
-	        $this->another_container = $builder->build();
+        $builder->addDefinitions(__DIR__ . '/../../../config/container-test.php');
+        $this->another_container = $builder->build();
 	    
         $dbFacade = $this->another_container->get(DatabaseFacade::class);
 		$dbFacade->createDatabase();
@@ -71,19 +71,61 @@ class ExportServiceTest extends TestCase {
 
 		$payload = $this->service->export();
 
-		print_r($payload);
-
 		$expectedPayload = [
 			'categories' => [
 				[
 					'id' => 1,
 					'parent_id' => null,
-					'description' => 'category 1'
+					'description' => 'category 1',
+					'created_at' => '1970-01-01T00:00:00.000000Z',
+					'updated_at' => '1970-01-01T00:00:00.000000Z'
 				],
 				[
 					'id' => 2,
 					'parent_id' => 1,
-					'description' => 'category 2'
+					'description' => 'category 2',
+					'created_at' => '1970-01-01T00:00:00.000000Z',
+					'updated_at' => '1970-01-01T00:00:00.000000Z'
+				]
+			],
+			'rules' => [
+				[
+					'id' => 1,
+	                'category_id' => 2,
+	                'field' => 'description',
+	                'pattern' => 'Jumbo',
+	                'created_at' => '1970-01-01T00:00:00.000000Z',
+	                'updated_at' => '1970-01-01T00:00:00.000000Z'
+                ]
+            ],
+    		'accounts' => [
+		    	[
+			        'id' => 1,
+			        'iban' => 'some iban',
+			        'description' => 'Test account',
+			        'holder' => '',
+			        'created_at' => '1970-01-01T00:00:00.000000Z',
+			        'updated_at' => '1970-01-01T00:00:00.000000Z'
+				]
+			],
+			'transactions' => [
+				[
+					'id' => 1,
+                    'category_id' => 2,
+                    'account_id' => 1,
+                    'counter_account_iban' => '',
+                    'counter_account_name' => '',
+                    'sequence_id' => 1,
+                    'date' => 0,
+                    'interest_date' => 0,
+                    'sign' => '+',
+                    'amount' => 100,
+                    'balance_after_transaction' => 100,
+                    'currency' => 'EUR',
+                    'reference' => '123',
+                    'description' => 'A description',
+                    'created_at' => '1970-01-01T00:00:00.000000Z',
+                    'updated_at' => '1970-01-01T00:00:00.000000Z'
 				]
 			]
 		];
