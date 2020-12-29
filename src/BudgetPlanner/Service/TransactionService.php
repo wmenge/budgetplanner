@@ -40,8 +40,16 @@ class TransactionService {
     // TODO: validate/clean data!
     public function map($data, $transaction) {
 
+        if (array_key_exists('id', $data) && !empty($data['id'])) {
+            $transaction->id = $data['id'];
+        }
+
         if (array_key_exists('account', $data) && array_key_exists('iban', $data['account'])) {
             $transaction->account()->associate($this->accountService->getAccountFor($data['account']['iban'], 'Current User'));
+        }
+
+        if (array_key_exists('account_id', $data) && !empty($data['account_id'])) {
+            $transaction->account_id = $data['account_id'];
         }
 
         if (array_key_exists('counter_account_iban', $data)) {

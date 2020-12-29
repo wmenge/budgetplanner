@@ -10,6 +10,11 @@ class CategoryService {
     // category can not be its own parent
     // allow no cycles
     public function map($data, $category) {
+
+        if (array_key_exists('id', $data) && !empty($data['id'])) {
+            $category->id = $data['id'];
+        }
+
         if (array_key_exists('description', $data)) {
             $category->description = $data['description'];
         }

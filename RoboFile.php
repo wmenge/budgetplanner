@@ -10,6 +10,9 @@ use \BudgetPlanner\Model\Transaction as Transaction;
 use \BudgetPlanner\Model\Category as Category;
 use \BudgetPlanner\Model\AssignmentRule as AssignmentRule;
 
+
+use \BudgetPlanner\Service\ExportService as ExportService;
+
 /**
  * This is project's console commands configuration for Robo task runner.
  *
@@ -30,6 +33,7 @@ class RoboFile extends \Robo\Tasks
         $builder = new DI\ContainerBuilder();
         $builder->addDefinitions(__DIR__ . '/config/container.php');
         $this->another_container = $builder->build();
+        $this->another_container->get('db');
     }
 
     // define public methods as commands
@@ -70,17 +74,11 @@ class RoboFile extends \Robo\Tasks
     	$account->description = 'Test account';
         $account->save();
 
-        $counterAccount = new Account();
-        $counterAccount->iban = "some other iban";
-        $counterAccount->description = 'Test counter account';
-        $counterAccount->save();
-
     	print_r($account->getAttributes());
 
     	$transaction = new Transaction();
     	$transaction->account()->associate($account);
-        $transaction->counterAccount()->associate($counterAccount);
-    	$transaction->category()->associate($category);
+        $transaction->category()->associate($category);
     	$transaction->currency = 'EUR';
         $transaction->amount = 100;
         $transaction->balance_after_transaction = 100;
@@ -104,8 +102,18 @@ class RoboFile extends \Robo\Tasks
         print_r(ORM::get_query_log());*/
 	}
 
-    public function importData() {
+    public function export() {
+        $service = $this->another_container->get(ExportService::class);
+        print_r(json_encode($service->export(), JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK));
+    }
 
+    public function import($path) {
+        $content = file_get_contents($path);
+        $data = json_decode($content, True);
+        //print_r($data);
+
+        $service = $this->another_container->get(ExportService::class);
+        $service->import($data);
     }
 
 }

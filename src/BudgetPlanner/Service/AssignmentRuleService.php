@@ -24,6 +24,10 @@ class AssignmentRuleService {
     // TODO: validate/clean data!
     public function map($data, $rule) {
 
+        if (array_key_exists('id', $data) && !empty($data['id'])) {
+            $rule->id = $data['id'];
+        }
+
         if (array_key_exists('category_id', $data)) {
             $rule->category_id = $data['category_id'];
         }
