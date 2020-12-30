@@ -42,7 +42,7 @@ final class ListAction extends BaseRenderAction
             'uncategorized_count' => Transaction::whereNull('category_id')->count(),
             'categorized_count' => Transaction::whereNotNull('category_id')->count(),
             'transactions' => $transactions,
-            'categories' => Category::all(),
+            'categories' => Category::orderBy('description')->get(),
             'match' => $match,
 
         ]);

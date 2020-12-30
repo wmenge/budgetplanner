@@ -10,7 +10,7 @@ final class ListAction extends BaseRenderAction
     public function renderContent($request, $args) {
     	
         return $this->renderer->fetch('category-list-fragment.php', [
-            'categories' => Category::all()
+            'categories' => Category::orderBy('description')->get()
         ]);
     }
 }
