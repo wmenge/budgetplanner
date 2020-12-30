@@ -15,6 +15,12 @@
   </div>
 
   <div class="mb-3">
+    <label for="additional_description" class="form-label">Additional Description</label>
+    <input type="text" class="form-control" name="additional_description" value="<?= @$transaction->additional_description ?>"/>
+  </div>
+
+
+  <div class="mb-3">
     <label for="account" class="form-label">Account</label>
     <input type="text" class="form-control" value="<?= @$transaction->account->iban ?>" readonly/>
   </div>

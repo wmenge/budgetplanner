@@ -95,5 +95,9 @@ class TransactionService {
         if (array_key_exists('description', $data)) {
             $transaction->description = $data['description'];
         }
+
+        if (array_key_exists('additional_description', $data)) {
+            $transaction->additional_description = $data['additional_description'];
+        }
     }
 }

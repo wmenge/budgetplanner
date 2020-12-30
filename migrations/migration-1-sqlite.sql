@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS "transactions" (
    -- "counterparty_name" text NOT NULL,
    "reference" text,
    "description" text,
+   "additional_description" text,
    "created_at" integer NOT NULL DEFAULT 0,
    "updated_at" integer NOT NULL DEFAULT 0
 );

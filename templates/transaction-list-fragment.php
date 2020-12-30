@@ -57,7 +57,9 @@
 			<th>Account</th>
 			<th>Counter Account</th>
 			<th style="width:10%">Description</th>
+			<th style="width:10%">Additional Description</th>
 			<th>Category</th>
+			<th>Date</th>
 			<th>Amount</th>
 			<th></th>
 		</tr>
@@ -66,9 +68,11 @@
 		<?php foreach ($transactions as $transaction): ?>
 			<tr class="<?= $transaction->ownAccount ? 'table-secondary text-muted' : '' ?>">
 				<!--<td><input class="form-check-input" type="checkbox" value="" id="select" name="select"></td>-->
-				<td><?= $transaction->account->iban ?></td>
+				<td><?= $transaction->account->iban ?> <br /><?= $transaction->account->holder ?></td>
+				
 				<td><?= implode('<br />', array_filter([ @$transaction->counter_account_iban,  @$transaction->counter_account_name])) ?></td>
 				<td><?= @$transaction->description ?></td>
+				<td><?= @$transaction->additional_description ?></td>
 				<td>
 					<select name="category_id[<?= $transaction->id ?>]" class="form-select" aria-label="Default select example">
 				  		<option <?= (!@$transaction->category) ? "selected" : "" ?>Select a category</option>
@@ -77,11 +81,13 @@
 						  <?php endforeach; ?>
 					  </select>
 				</td>
+				<td><?= date('d-m-yy', $transaction->date) ?></td>
 				<td><a href="/transactions/<?= $transaction->id ?>"><?= @$transaction->currency ?> <?= @$transaction->sign ?> <?= @$transaction->amount ?></a>
 				</td>
 				<td>
 					<div class="btn-toolbar">
 						<div class="btn-group">
+							
 							<a class="btn btn-outline-secondary btn-sm" href="/transactions/<?= $transaction->id ?>/delete" role="button">Delete</a>
 						</div>
 					</div>
