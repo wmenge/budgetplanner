@@ -20,9 +20,13 @@
     <input type="text" name="field" class="form-control" id="field" value="<?= @$rule->field ?>" />
   </div>
 
-    <div class="mb-3">
+  <div class="mb-3">
     <label for="pattern" class="form-label">Pattern</label>
-    <input type="text" name="pattern" class="form-control" id="pattern" value="<?= @$rule->pattern ?>" />
+    <div class="input-group">
+      <span class="input-group-text">/</span>
+      <input type="text" name="pattern" class="form-control" id="pattern" value="<?= @$rule->pattern ?>" />
+      <span class="input-group-text">/i</span>
+    </div>
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>
