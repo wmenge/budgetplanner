@@ -41,4 +41,10 @@ abstract class BaseRenderAction
 
     protected abstract function renderContent($request, $args);
 
+    protected function getQueryParam($request, $name, $default) {
+        $params = $request->getQueryParams();
+        return isset($params[$name]) ? $params[$name] : $default;
+
+    }
+
 }

@@ -26,8 +26,9 @@ final class ListAction extends BaseRenderAction
     public function renderContent($request, $args) {
         $filter = $request->getAttribute('filter', 'uncategorized');
         $match = $request->getAttribute('match', null);
-
-        $transactions = $this->getTransactionsFor($filter);
+        $sort = $this->getQueryParam($request, 'sort', 'date');
+        
+        $transactions = $this->getTransactionsFor($filter, $sort);
 
         if ($match) {
             $transactions = $this->match($transactions);

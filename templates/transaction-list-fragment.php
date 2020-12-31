@@ -58,13 +58,13 @@
 	<thead>
 		<tr>
 			<!--<th><input class="form-check-input" type="checkbox" value="" id="select" name="select"></th>-->
-			<th>Account</th>
-			<th>Counter Account</th>
-			<th style="width:10%">Description</th>
-			<th style="width:10%">Additional Description</th>
-			<th>Category</th>
-			<th>Date</th>
-			<th>Amount</th>
+			<th><a href='?sort=account_id'>Account</a></th>
+			<th><a href='?sort=counter_account_iban'>Counter Account</a></th>
+			<th style="width:10%"><a href='?sort=description'>Description</a></th>
+			<th style="width:10%"><a href='?sort=additional_description'>Additional Description</a></th>
+			<th><a href='?sort=category_id'>Category</a></th>
+			<th><a href='?sort=date'>Date</a></th>
+			<th><a href='?sort=amount'>Amount</a></th>
 			<th></th>
 		</tr>
 	</thead>
