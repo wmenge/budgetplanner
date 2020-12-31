@@ -39,7 +39,7 @@ return function (App $app) {
 
     // Transactions
 
-    $app->get('/transactions[/{filter:categorized|uncategorized}]', BudgetPlanner\Actions\Transaction\ListAction::class);
+    $app->get('/transactions[/{filter:categorized|uncategorized|own-accounts}]', BudgetPlanner\Actions\Transaction\ListAction::class);
 
     $app->get('/transactions/{filter:categorized|uncategorized}/{match:match}', BudgetPlanner\Actions\Transaction\ListAction::class);
     $app->post('/transactions/{filter:categorized|uncategorized}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);

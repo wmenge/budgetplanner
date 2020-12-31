@@ -9,6 +9,7 @@ use BudgetPlanner\Service\TransactionService;
 use BudgetPlanner\Service\AssignmentRuleService;
 use \BudgetPlanner\Model\Transaction;
 use \BudgetPlanner\Model\Category;
+use \BudgetPlanner\Model\Account;
 use \BudgetPlanner\Model\AssignmentRule;
 
 
@@ -41,6 +42,7 @@ final class ListAction extends BaseRenderAction
             'filter' => $filter,
             'uncategorized_count' => Transaction::whereNull('category_id')->count(),
             'categorized_count' => Transaction::whereNotNull('category_id')->count(),
+            'own_accounts_count' => Transaction::whereIn('counter_account_iban', Account::pluck('iban'))->count(),
             'transactions' => $transactions,
             'categories' => Category::orderBy('description')->get(),
             'match' => $match,
@@ -48,8 +50,26 @@ final class ListAction extends BaseRenderAction
         ]);
     }
 
-    protected function getTransactionsFor($filter) {
-        return ($filter == 'categorized' ? Transaction::whereNotNull('category_id') : Transaction::whereNull('category_id'))->get();
+    protected function getTransactionsFor($filter, $sort) {
+
+        switch ($filter) {
+            case 'categorized':
+                $result = Transaction::whereNotNull('category_id');
+                break;
+            
+            case 'uncategorized':
+                $result = Transaction::whereNull('category_id')->whereNotIn('counter_account_iban', Account::pluck('iban'));
+                break;
+
+            case 'own-accounts':
+                $result = Transaction::whereIn('counter_account_iban', Account::pluck('iban'));
+                break;
+
+            default:
+                $result = Transaction::all();
+                break;
+        }
+        return $result->orderBy($sort)->get();
     }
 
     protected function match($transactions) {

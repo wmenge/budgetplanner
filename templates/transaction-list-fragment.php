@@ -32,9 +32,13 @@
   <a class="nav-link <?= @$filter=='categorized' ? 'active' : ''?>" aria-current="page" href="/transactions/categorized">
     Categorized <span class="badge bg-secondary"><?= @$categorized_count ?></span></a>
   </li>
-  <!--<li class="nav-item">
-    <a class="nav-link" href="#">Upload</a>
-  </li>-->
+  <a class="nav-link <?= @$filter=='own-accounts' ? 'active' : ''?>" aria-current="page" href="/transactions/own-accounts">
+    Own accounts <span class="badge bg-secondary"><?= @$own_accounts_count ?></span></a>
+  </li>
+  
+  <li class="nav-item">
+    <a class="nav-link" href="/transactions/upload">Upload transactions</a>
+  </li>
 </ul>
 
 <form method="POST" action="/transactions/<?= @$filter ?>/match">
