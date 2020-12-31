@@ -9,20 +9,18 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
-			<th>IBAN</th>
-			<th>Description</th>
-			<th>Holder</th>
-			<!--<th>Own Acccount</th>-->
+			<th><a href='?sort=iban'>IBAN</a></th>
+			<th><a href='?sort=description'>Description</a></th>
+			<th><a href='?sort=holder'>Holder</a></th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach ($accounts as $account): ?>
 			<tr>
-				<td><a href="/accounts/<?= $account->id ?>"><?= @$account->iban ?></a></td>
+				<td><a href="/accounts/<?= $account->id ?>"><?= @$account->iban_formatted() ?></a></td>
 				<td><?= @$account->description ?></td>
 				<td><?= @$account->holder ?></td>
-				<!--<td><?= @$account->own_account ? "Yes" : "No" ?></td>-->
 				<td>
 					<div class="btn-toolbar">
 						<div class="btn-group">

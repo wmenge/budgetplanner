@@ -22,12 +22,12 @@
 
   <div class="mb-3">
     <label for="account" class="form-label">Account</label>
-    <input type="text" class="form-control" value="<?= @$transaction->account->iban ?>" readonly/>
+    <input type="text" class="form-control" value="<?= @$transaction->account->iban_formatted()?> / <?= @$transaction->account->holder ?>" readonly/>
   </div>
 
   <div class="mb-3">
     <label for="counter_account" class="form-label">Counter Account</label>
-    <input type="text" class="form-control" value="<?= @$transaction->counterAccount->iban ?>" readonly/>
+    <input type="text" class="form-control" value="<?= implode(' / ', array_filter([ @$transaction->counter_account_iban_formatted(),  @$transaction->counter_account_name])) ?>" readonly/>
   </div>
 
   <div class="mb-3">
@@ -37,7 +37,7 @@
 
   <div class="mb-3">
     <label for="amount" class="form-label">Amount</label>
-    <input type="text" class="form-control" value="<?= @$transaction->currency ?> <?= @$transaction->sign ?> <?= @$transaction->amount ?>" readonly/>
+    <input type="text" class="form-control" value="<?= @$transaction->amount_formatted() ?>&nbsp;<?= @$transaction->sign ?>" readonly/>
   </div>
 
   <div class="mb-3">

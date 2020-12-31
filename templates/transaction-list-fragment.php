@@ -1,18 +1,15 @@
-<h3 class="display-4">Transactions</h3>
+<h3 class="display-5">Transactions</h3>
 
-<div class="btn-toolbar">
+<!--<div class="btn-toolbar">
 	<?php if (@$match): ?>
-	<!--	<div class="btn-group">
-			<a class="btn btn-outline-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Save matches</a>
-		</div>-->
 	<?php else: ?>
 		<div class="btn-group">
 			<a class="btn btn-outline-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Match transactions</a>
 		</div>
 	<?php endif; ?>
-</div>
+</div>-->
 
-<form method="POST" action="/transactions/upload" enctype="multipart/form-data">
+<!--<form method="POST" action="/transactions/upload" enctype="multipart/form-data">
 	<div class="row">
 		<div class="input-group mb-3 col-4">  
 			<label for="transactionFile" class="form-label">Upload file</label>
@@ -22,7 +19,7 @@
 			</div>
 		</div>
 	</div>
-</form>
+</form>-->
 
 <ul class="nav nav-tabs">
   <li class="nav-item">
@@ -72,9 +69,9 @@
 		<?php foreach ($transactions as $transaction): ?>
 			<tr class="<?= $transaction->ownAccount ? 'table-secondary text-muted' : '' ?>">
 				<!--<td><input class="form-check-input" type="checkbox" value="" id="select" name="select"></td>-->
-				<td><?= $transaction->account->iban ?> <br /><?= $transaction->account->holder ?></td>
+				<td><?= $transaction->account->iban_formatted() ?> <br /><?= $transaction->account->holder ?></td>
 				
-				<td><?= implode('<br />', array_filter([ @$transaction->counter_account_iban,  @$transaction->counter_account_name])) ?></td>
+				<td><?= implode('<br />', array_filter([ @$transaction->counter_account_iban_formatted(),  @$transaction->counter_account_name])) ?></td>
 				<td><?= @$transaction->description ?></td>
 				<td><?= @$transaction->additional_description ?></td>
 				<td>
@@ -86,7 +83,7 @@
 					  </select>
 				</td>
 				<td><?= date('d-m-yy', $transaction->date) ?></td>
-				<td><a href="/transactions/<?= $transaction->id ?>"><?= @$transaction->currency ?> <?= @$transaction->sign ?> <?= @$transaction->amount ?></a>
+				<td class="text-end"><a href="/transactions/<?= $transaction->id ?>"><?= @$transaction->amount_formatted() ?>&nbsp;<?= @$transaction->sign ?></a>
 				</td>
 				<td>
 					<div class="btn-toolbar">
