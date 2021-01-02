@@ -69,7 +69,12 @@
 		<?php foreach ($transactions as $transaction): ?>
 			<tr class="<?= $transaction->ownAccount ? 'table-secondary text-muted' : '' ?>">
 				<!--<td><input class="form-check-input" type="checkbox" value="" id="select" name="select"></td>-->
-				<td><?= $transaction->account->iban_formatted() ?> <br /><?= $transaction->account->holder ?></td>
+				<td>
+					<?= $transaction->account->iban_formatted() ?> <br /><?= $transaction->account->holder ?>
+					<?php foreach ($transaction->tags as $tag): ?>
+					  <span class="badge bg-primary"><?= $tag->description ?></span>
+				  	<?php endforeach; ?>
+				</td>
 				
 				<td><?= implode('<br />', array_filter([ @$transaction->counter_account_iban_formatted(),  @$transaction->counter_account_name])) ?></td>
 				<td><?= @$transaction->description ?></td>

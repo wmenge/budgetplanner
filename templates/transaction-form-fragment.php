@@ -1,4 +1,38 @@
-<h3><?= @$category ? "Edit" : "New" ?> Category</h3>
+<h3><?= @$transaction ? "Edit" : "New" ?> Transaction</h3>
+  <div class="card">
+  <div class="card-header">
+    Tags
+  </div>
+  <div class="card-body">
+    
+  <div class="mb-3">
+    <div class="lead">
+      <?php foreach ($transaction->tags as $tag): ?>
+        <form style="display: inline;" method="POST" action="/transactions/<?= @$transaction->id ?>/tags/<?= @$tag->id ?>/delete">
+          <span class="badge bg-secondary">
+            <?= $tag->description ?> 
+            <button type="submit" class="btn-close"></button>
+          </span>
+        </form>
+      <?php endforeach; ?>
+    </div>
+  </div>
+
+<form method="POST" action="/transactions/<?= @$transaction->id ?>/tags">
+  
+  <div class="input-group col-xs-2">
+    <select name="tag_id" class="form-select col-xs-2" aria-label="Default select example">
+      <option selected>Select a tag</option>
+      <?php foreach ($tags as $tag): ?>
+        <option value="<?= $tag->id ?>"><?= $tag->description ?></option>
+      <?php endforeach; ?>
+    </select>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </div>
+</form>
+
+  </div>
+</div>
 
 <form method="POST" action="/transactions">
   

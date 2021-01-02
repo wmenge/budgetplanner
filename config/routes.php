@@ -18,7 +18,18 @@ return function (App $app) {
     // TODO: Should be DELETE, but cannot be natively sent by HTML form
     $app->get('/categories/{id}/delete', BudgetPlanner\Actions\Category\DeleteAction::class);
 
+    // Tags
+
+    $app->get('/tags', BudgetPlanner\Actions\Tag\ListAction::class);
+    $app->get('/tags/new', BudgetPlanner\Actions\Tag\NewFormAction::class);
+    $app->get('/tags/{id}', BudgetPlanner\Actions\Tag\EditFormAction::class);
+    // TODO: Should be put, but cannot be natively sent by HTML form
+    $app->post('/tags', BudgetPlanner\Actions\Tag\SaveAction::class);
+    // TODO: Should be DELETE, but cannot be natively sent by HTML form
+    $app->get('/tags/{id}/delete', BudgetPlanner\Actions\Tag\DeleteAction::class);
+
     // Assignment Rules
+
     $app->get('/categories/{category_id}/rules', BudgetPlanner\Actions\AssignmentRules\ListAction::class);
     $app->get('/categories/{category_id}/rules/new', BudgetPlanner\Actions\AssignmentRules\NewFormAction::class);
     $app->get('/categories/{category_id}/rules/{rule_id}', BudgetPlanner\Actions\AssignmentRules\EditFormAction::class);
@@ -30,7 +41,7 @@ return function (App $app) {
     // Accounts
 
     $app->get('/accounts', BudgetPlanner\Actions\Account\ListAction::class);
-    $app->get('/accounts/new', BudgetPlanner\Actions\Account\NewFormAction::class);
+    $app->get('/accounts/new', BudgetPlanner\Actions\Account\EditFormAction::class);
     $app->get('/accounts/{id}', BudgetPlanner\Actions\Account\EditFormAction::class);
     // TODO: Should be put, but cannot be natively sent by HTML form
     $app->post('/accounts', BudgetPlanner\Actions\Account\SaveAction::class);
@@ -41,11 +52,11 @@ return function (App $app) {
 
     $app->get('/transactions[/{filter:categorized|uncategorized|own-accounts}]', BudgetPlanner\Actions\Transaction\ListAction::class);
 
+    $app->get('/transactions/categorized/{categoryDescription}', BudgetPlanner\Actions\Transaction\ListAction::class);
+
     $app->get('/transactions/{filter:categorized|uncategorized}/{match:match}', BudgetPlanner\Actions\Transaction\ListAction::class);
     $app->post('/transactions/{filter:categorized|uncategorized}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
-    //$app->get('/accounts/new', BudgetPlanner\Actions\Transaction\NewFormAction::class);
     
-
     $app->get('/transactions/{id:[0-9]+}', BudgetPlanner\Actions\Transaction\EditFormAction::class);
     // TODO: Should be put, but cannot be natively sent by HTML form
     $app->post('/transactions', BudgetPlanner\Actions\Transaction\SaveAction::class);
@@ -53,6 +64,9 @@ return function (App $app) {
     $app->post('/transactions/upload', BudgetPlanner\Actions\Transaction\UploadAction::class);
     // TODO: Should be DELETE, but cannot be natively sent by HTML form
     $app->get('/transactions/{id}/delete', BudgetPlanner\Actions\Transaction\DeleteAction::class);
+
+    $app->post('/transactions/{id:[0-9]+}/tags', BudgetPlanner\Actions\Transaction\AddTagAction::class);
+    $app->post('/transactions/{id:[0-9]+}/tags/{tag_id:[0-9]+}/delete', BudgetPlanner\Actions\Transaction\RemoveTagAction::class);
 
     // Reporting
 

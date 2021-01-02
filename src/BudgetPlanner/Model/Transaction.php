@@ -30,4 +30,9 @@ class Transaction extends Model {
         return $this->belongsTo('BudgetPlanner\Model\Category');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('BudgetPlanner\Model\Tag');
+    }
+
 }

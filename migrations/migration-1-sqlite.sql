@@ -75,6 +75,28 @@ CREATE TABLE "users_groups" (
 );
 
 -- ----------------------------
+--  Table structure for "tags"
+-- ----------------------------
+DROP TABLE IF EXISTS "tags";
+CREATE TABLE IF NOT EXISTS "tags" (
+  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  "description" text NOT NULL UNIQUE,
+  "created_at" integer NOT NULL DEFAULT 0,
+  "updated_at" integer NOT NULL DEFAULT 0
+);
+
+-- ----------------------------
+--  Table structure for "transaction_tag"
+-- ----------------------------
+DROP TABLE IF EXISTS "tag_transaction";
+CREATE TABLE IF NOT EXISTS "tag_transaction" (
+  "tag_id" integer REFERENCES "tags" ("id") ON DELETE SET NULL,
+  "transaction_id" integer REFERENCES "transactions" ("id") ON DELETE SET NULL,
+  "created_at" integer NOT NULL DEFAULT 0,
+  "updated_at" integer NOT NULL DEFAULT 0
+);
+
+-- ----------------------------
 --  Table structure for "categories"
 -- ----------------------------
 DROP TABLE IF EXISTS "categories";

@@ -10,6 +10,9 @@
       <a class="nav-link" href="/accounts">Accounts</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" href="/tags">Tags</a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" href="/reporting">Reporting</a>
     </li>
   </ul>
