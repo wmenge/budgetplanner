@@ -56,7 +56,7 @@ return function (App $app) {
     // Reporting
 
     $app->get('/reporting', BudgetPlanner\Actions\Reporting\ReportAction::class);
-    $app->get('/api/reporting/categories', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
+    $app->get('/api/reporting/categories[/{categoryDescription}]', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
 
     $app->get('/api/reporting/categories/{from}/{to}', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
 

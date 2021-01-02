@@ -75,7 +75,7 @@ CREATE TABLE "users_groups" (
 );
 
 -- ----------------------------
---  Table structure for "category"
+--  Table structure for "categories"
 -- ----------------------------
 DROP TABLE IF EXISTS "categories";
 CREATE TABLE IF NOT EXISTS "categories" (
@@ -85,6 +85,29 @@ CREATE TABLE IF NOT EXISTS "categories" (
   "created_at" integer NOT NULL DEFAULT 0,
   "updated_at" integer NOT NULL DEFAULT 0
 );
+
+-- ----------------------------
+--  View structure for "categories_tree"
+-- ----------------------------
+CREATE VIEW IF NOT EXISTS categories_tree
+AS 
+WITH RECURSIVE
+  categories_cte(id,parent_id,description,root,level, breadcrump, path) AS (
+    SELECT id,parent_id,description,id,0,description, "'" || id || "'"
+        FROM categories
+        WHERE parent_id is null
+    UNION ALL
+        SELECT x.id,x.parent_id,x.description,y.root,y.level+1,y.breadcrump || ' / ' || x.description, y.path || ", '" || x.id || "'"
+            FROM categories AS x
+            INNER JOIN categories_cte AS y ON (x.parent_id=y.id)
+  )
+SELECT id,parent_id,description,root,level,breadcrump, "[" || path  || "]" as path
+    FROM categories_cte
+    order by breadcrump
+
+-- ----------------------------
+--  Table structure for "assignment_rules"
+-- ----------------------------
 
 DROP TABLE IF EXISTS "assignment_rules";
 CREATE TABLE IF NOT EXISTS "assignment_rules" (
@@ -97,7 +120,7 @@ CREATE TABLE IF NOT EXISTS "assignment_rules" (
 );
 
 -- ----------------------------
---  Table structure for "account"
+--  Table structure for "accounts"
 -- ----------------------------
 DROP TABLE IF EXISTS "accounts";
 CREATE TABLE IF NOT EXISTS "accounts" (
