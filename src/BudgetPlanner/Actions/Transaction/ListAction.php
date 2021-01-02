@@ -25,11 +25,16 @@ final class ListAction extends BaseRenderAction
     }
 
     public function renderContent($request, $args) {
-        $filter = $request->getAttribute('filter', 'uncategorized');
+        $categoryDescription = $request->getAttribute('categoryDescription', null);
+//print_r($categoryDescription);
+        // todo: service method
+        $category = Category::where('description', $categoryDescription)->first();
+  //      print_r($category);
+        $filter = $request->getAttribute('filter', $categoryDescription ? 'categorized' : 'uncategorized');
         $match = $request->getAttribute('match', null);
         $sort = $this->getQueryParam($request, 'sort', 'date');
         
-        $transactions = $this->getTransactionsFor($filter, $sort);
+        $transactions = $this->getTransactionsFor($filter, $category, $sort);
 
         if ($match) {
             $transactions = $this->match($transactions);
@@ -52,25 +57,36 @@ final class ListAction extends BaseRenderAction
         ]);
     }
 
-    protected function getTransactionsFor($filter, $sort) {
+    protected function getTransactionsFor($filter, $category, $sort) {
 
         switch ($filter) {
+            // all transactions with a category
             case 'categorized':
                 $result = Transaction::whereNotNull('category_id');
                 break;
             
+            // transaction without a category, but not to own accounts
             case 'uncategorized':
                 $result = Transaction::whereNull('category_id')->whereNotIn('counter_account_iban', Account::pluck('iban'));
                 break;
 
+            // transactions to own accounts
             case 'own-accounts':
                 $result = Transaction::whereIn('counter_account_iban', Account::pluck('iban'));
                 break;
 
+            // should not be called
             default:
                 $result = Transaction::all();
                 break;
         }
+
+        // if provided, filter on category (Also on subcategories?)
+        if ($category) {
+            //print_r($category->id);
+            $result = $result->where('category_id', $category->id);
+        }
+
         return $result->orderBy($sort)->get();
     }
 
