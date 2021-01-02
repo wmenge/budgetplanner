@@ -9,6 +9,7 @@ use BudgetPlanner\Service\TransactionService;
 use BudgetPlanner\Service\AssignmentRuleService;
 use \BudgetPlanner\Model\Transaction;
 use \BudgetPlanner\Model\Category;
+use \BudgetPlanner\Model\CategoryTreeItem;
 use \BudgetPlanner\Model\Account;
 use \BudgetPlanner\Model\AssignmentRule;
 
@@ -45,7 +46,7 @@ final class ListAction extends BaseRenderAction
             'categorized_count' => Transaction::whereNotNull('category_id')->count(),
             'own_accounts_count' => Transaction::whereIn('counter_account_iban', Account::pluck('iban'))->count(),
             'transactions' => $transactions,
-            'categories' => Category::orderBy('description')->get(),
+            'categories' => CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get(),
             'match' => $match,
 
         ]);

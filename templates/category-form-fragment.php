@@ -13,8 +13,8 @@
   	<label for="description" class="form-label">Parent</label>
     <select name="parent_id" class="form-select" aria-label="Default select example">
   		<option <?= (!@$category->parent) ? "selected" : "" ?> value="">Select a parent category</option>
-	  	<?php foreach ($categories as $parent_category): ?>
-			  <option <?= $parent_category == @$category->parent ? "selected" : "" ?> value="<?= $parent_category->id ?>"><?= $parent_category->description ?></option>
+	  	<?php foreach ($categories as $category): ?>
+			  <option <?= $category->id == @$category->parent_id ? "selected" : "" ?> value="<?= $category->id ?>"><?= str_repeat('&nbsp', $category->level * 5) . $category->description ?></option>
 		  <?php endforeach; ?>
 	  </select>
   </div>

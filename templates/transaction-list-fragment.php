@@ -57,9 +57,9 @@
 			<!--<th><input class="form-check-input" type="checkbox" value="" id="select" name="select"></th>-->
 			<th><a href='?sort=account_id'>Account</a></th>
 			<th><a href='?sort=counter_account_iban'>Counter Account</a></th>
-			<th style="width:10%"><a href='?sort=description'>Description</a></th>
-			<th style="width:10%"><a href='?sort=additional_description'>Additional Description</a></th>
-			<th><a href='?sort=category_id'>Category</a></th>
+			<th style="width: 10%"><a href='?sort=description'>Description</a></th>
+			<th style="width: 10%"><a href='?sort=additional_description'>Additional Description</a></th>
+			<th style="width: 60%"><a href='?sort=category_id'>Category</a></th>
 			<th><a href='?sort=date'>Date</a></th>
 			<th><a href='?sort=amount'>Amount</a></th>
 			<th></th>
@@ -76,11 +76,12 @@
 				<td><?= @$transaction->additional_description ?></td>
 				<td>
 					<select name="category_id[<?= $transaction->id ?>]" class="form-select" aria-label="Default select example">
-				  		<option <?= (!@$transaction->category) ? "selected" : "" ?>Select a category</option>
+				  		<option <?= (!@$category->parent) ? "selected" : "" ?> value=""></option>
 					  	<?php foreach ($categories as $category): ?>
-							  <option <?= $category == @$transaction->category ? "selected" : "" ?> value="<?= $category->id ?>"><?= $category->description ?></option>
+							  <option <?= $category->id == @$transaction->category_id ? "selected" : "" ?> value="<?= $category->id ?>"><?= $category->description ?></option>
 						  <?php endforeach; ?>
 					  </select>
+
 				</td>
 				<td><?= date('d-m-yy', $transaction->date) ?></td>
 				<td class="text-end"><a href="/transactions/<?= $transaction->id ?>"><?= @$transaction->amount_formatted() ?>&nbsp;<?= @$transaction->sign ?></a>
