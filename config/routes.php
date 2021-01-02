@@ -49,6 +49,7 @@ return function (App $app) {
     $app->get('/transactions/{id:[0-9]+}', BudgetPlanner\Actions\Transaction\EditFormAction::class);
     // TODO: Should be put, but cannot be natively sent by HTML form
     $app->post('/transactions', BudgetPlanner\Actions\Transaction\SaveAction::class);
+    $app->get('/transactions/upload', BudgetPlanner\Actions\Transaction\UploadFormAction::class);
     $app->post('/transactions/upload', BudgetPlanner\Actions\Transaction\UploadAction::class);
     // TODO: Should be DELETE, but cannot be natively sent by HTML form
     $app->get('/transactions/{id}/delete', BudgetPlanner\Actions\Transaction\DeleteAction::class);
