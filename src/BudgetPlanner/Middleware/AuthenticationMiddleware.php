@@ -6,8 +6,17 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
+use BudgetPlanner\Service\Oauth2Service;
+use \BudgetPlanner\Model\User;
+
 class AuthenticationMiddleware
 {
+    private $service;
+
+    public function __construct(Oauth2Service $service) {
+        $this->service = $service;
+    }
+
     /**
      * Authentication middleware
      *
@@ -22,11 +31,9 @@ class AuthenticationMiddleware
 
         //die();
 
-        if (isset($_SESSION['access_token'])) {
+        if (isset($_SESSION['access_token']) && $_SESSION['provider']) {
             $token = unserialize($_SESSION['access_token']);
-
-            print_r($token->hasExpired());
-
+            
             // Step 1: test validity of token
             if ($token->hasExpired()) {
                 // TODO: Refresh token
@@ -34,12 +41,22 @@ class AuthenticationMiddleware
             }
 
             // Step 2: test if token belongs to known user
+            $providerName = $_SESSION['provider'];
+            $provider = $this->service->getProvider($providerName);
+            $ownerDetails = $provider->getResourceOwner($token);
+            $userName = $ownerDetails->getEmail();
+
+            $user = User::where('userName', $userName)->where('provider', $providerName)->first();
+
+            if (!$user) {
+                return $response->withHeader('Location', '/login')->withStatus(401);
+            }
+
+            //print_r($user->getAttributes());
 
         } else {
             return $response->withHeader('Location', '/login')->withStatus(401);
         }
-
-
 
         return $response;
     }

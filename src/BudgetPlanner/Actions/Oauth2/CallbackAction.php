@@ -2,41 +2,20 @@
 
 namespace BudgetPlanner\Actions\Oauth2;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
 use Slim\Flash\Messages;
 
+use BudgetPlanner\Service\Oauth2Service;
+
 final class CallbackAction
 {
-	private $configurations;
+    private $service;
 
-    public function __construct(ContainerInterface $c) {
-        $this->configurations = $c->get('settings')['oauth2'];
+    public function __construct(Oauth2Service $service) {
+        $this->service = $service;
     }
-
-    private function getProvider($name) {
-        switch ($name) {
-            case "github":
-                return $this->getGitHubProvider($this->configurations[$name]);
-                break;
-            case "google":
-                return $this->getGoogleProvider($this->configurations[$name]);
-                break;
-            default:
-                exit('Oh dear...');
-                break;
-        }
-    }
-
-    private function getGitHubProvider($configuration) {
-        return new \League\OAuth2\Client\Provider\Github($configuration);
-    }
-
-    private function getGoogleProvider($configuration) {
-        return new \League\OAuth2\Client\Provider\Google($configuration);
-    }   
 
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
@@ -46,7 +25,7 @@ final class CallbackAction
             unset($_SESSION['oauth2state']);
             exit('Invalid state');
         } else {
-            $provider = $this->getProvider($providerName);
+            $provider = $this->service->getProvider($providerName);
 
             // Try to get an access token (using the authorization code grant)
             $token = $provider->getAccessToken('authorization_code', [
@@ -54,6 +33,7 @@ final class CallbackAction
             ]);
 
             $_SESSION['access_token'] = serialize($token);
+            $_SESSION['provider'] = $providerName;
             $referer = $_SESSION['loginreferer'];
             unset($_SESSION['loginreferer']);
 

@@ -93,7 +93,7 @@ return function (App $app) {
 
         $group->get('/api/reporting/categories/{from}/{to}', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
 
-    })->add(new AuthenticationMiddleware());
+    })->add(AuthenticationMiddleware::class);
 
     // Security
 
