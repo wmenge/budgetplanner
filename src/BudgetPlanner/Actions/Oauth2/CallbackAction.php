@@ -20,26 +20,9 @@ final class CallbackAction
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
         $providerName = $args['provider'];
+        $oauthState = $_GET['state'];
 
-        if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
-            unset($_SESSION['oauth2state']);
-            exit('Invalid state');
-        } else {
-            $provider = $this->service->getProvider($providerName);
-
-            // Try to get an access token (using the authorization code grant)
-            $token = $provider->getAccessToken('authorization_code', [
-                'code' => $_GET['code']
-            ]);
-
-            $_SESSION['access_token'] = serialize($token);
-            $_SESSION['provider'] = $providerName;
-            $referer = $_SESSION['loginreferer'];
-            unset($_SESSION['loginreferer']);
-
-            return $response->withHeader('Location', '/');
-
-            //$this->loginWithAccessToken($providerName, $token, $referer);
-        }
+        $this->service->retrieveNewToken($providerName, $oauthState);
+        return $response->withHeader('Location', '/');
     }
 }

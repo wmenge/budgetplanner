@@ -5,7 +5,6 @@ namespace BudgetPlanner\Actions\Oauth2;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
-use Slim\Flash\Messages;
 
 use BudgetPlanner\Service\Oauth2Service;
 
@@ -19,22 +18,18 @@ final class LoginAction
 
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
-        $providerName = $args['provider'];
-        $referer = $request->getQueryParams()['referer'];
-        if (empty($referer)) $referer = '/';
-        
-        // TODO: If logging in with different provider, first log out
-        if (isset($_SESSION['access_token'])) {
-            $token = unserialize($_SESSION['access_token']);
+        $token = $this->service->getToken();
+
+        if ($token) {
             return $response->withHeader('Location', '/');
         } else {
-            // If we don't have an authorization code then get one
-            $provider = $this->service->getProvider($providerName);
-            $authUrl = $provider->getAuthorizationUrl();
-            $_SESSION['loginreferer'] = $referer;
-            $_SESSION['oauth2state'] = $provider->getState();
-            header('Location: '.$authUrl);
-            exit;
+            $providerName = $args['provider'];
+            $referer = $request->getQueryParams()['referer'];
+            if (empty($referer)) $referer = '/';
+            
+            $authUrl = $this->service->setupAuthUrl($providerName, $referer);
+
+            return $response->withHeader('Location', $authUrl);
         }
     }
 }
