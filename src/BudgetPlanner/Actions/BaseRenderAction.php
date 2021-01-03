@@ -2,7 +2,8 @@
 
 namespace BudgetPlanner\Actions;
 
-use BudgetPlanner\Actions\BaseRenderAction;
+use Psr\Container\ContainerInterface;
+use BudgetPlanner\Service\Oauth2Service;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
@@ -16,11 +17,13 @@ abstract class BaseRenderAction
      */
     protected $renderer;
     protected $flash;
+    protected $oauthService;
     
-    public function __construct(PhpRenderer $renderer, Messages $flash)
+    public function __construct(ContainerInterface $c) 
     {
-        $this->renderer = $renderer;
-        $this->flash = $flash;
+        $this->renderer = $c->get(PhpRenderer::class);
+        $this->flash = $c->get(Messages::class);
+        $this->oauthService = $c->get(Oauth2Service::class);
     }
 
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
@@ -30,12 +33,13 @@ abstract class BaseRenderAction
 
     protected function renderPage(Request $request, Response $response, $args): ResponseInterface
     {
-        //$this->flash->addMessageNow('success', 'This is a message');
+        $ownerDetails = $this->oauthService->getOwnerDetails($this->oauthService->getToken());
 
         return $this->renderer->render($response, 'default-page.php', [
-            'menu'    => $this->renderer->fetch('menu-fragment.php'),
+            'menu'    => $this->renderer->fetch('menu-fragment.php', []),
             'content' => $this->renderContent($request, $args),
-            'flash' => $this->flash->getMessages()
+            'flash' => $this->flash->getMessages(),
+            'ownerDetails' => $ownerDetails
         ]);
     }
 
