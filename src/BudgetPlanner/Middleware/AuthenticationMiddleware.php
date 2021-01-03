@@ -29,8 +29,6 @@ class AuthenticationMiddleware
     {
         $response = $handler->handle($request);
 
-        //die();
-
         if (isset($_SESSION['access_token']) && $_SESSION['provider']) {
             $token = unserialize($_SESSION['access_token']);
             
@@ -38,6 +36,12 @@ class AuthenticationMiddleware
             if ($token->hasExpired()) {
                 // TODO: Refresh token
                 return $response->withHeader('Location', '/login')->withStatus(401);
+            } else {
+                $newAccessToken = $provider->getAccessToken('refresh_token', [
+                    'refresh_token' => $token->getRefreshToken()
+                ]);
+
+                $_SESSION['access_token'] = serialize($newAccessToken);
             }
 
             // Step 2: test if token belongs to known user
@@ -51,8 +55,6 @@ class AuthenticationMiddleware
             if (!$user) {
                 return $response->withHeader('Location', '/login')->withStatus(401);
             }
-
-            //print_r($user->getAttributes());
 
         } else {
             return $response->withHeader('Location', '/login')->withStatus(401);

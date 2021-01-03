@@ -27,7 +27,6 @@ final class LoginAction
         if (isset($_SESSION['access_token'])) {
             $token = unserialize($_SESSION['access_token']);
             return $response->withHeader('Location', '/');
-            //$this->loginWithAccessToken($providerName, $token, $referer);
         } else {
             // If we don't have an authorization code then get one
             $provider = $this->service->getProvider($providerName);
@@ -37,6 +36,5 @@ final class LoginAction
             header('Location: '.$authUrl);
             exit;
         }
-        //return "hlleo";
     }
 }
