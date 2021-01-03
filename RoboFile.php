@@ -9,7 +9,7 @@ use \BudgetPlanner\Model\Account as Account;
 use \BudgetPlanner\Model\Transaction as Transaction;
 use \BudgetPlanner\Model\Category as Category;
 use \BudgetPlanner\Model\AssignmentRule as AssignmentRule;
-
+use \BudgetPlanner\Model\User;
 
 use \BudgetPlanner\Service\ExportService as ExportService;
 
@@ -114,6 +114,30 @@ class RoboFile extends \Robo\Tasks
 
         $service = $this->another_container->get(ExportService::class);
         $service->import($data);
+    }
+
+    public function usersList() {
+        print_r(User::all()->toArray());
+
+    }
+
+    public function usersAdd($userName, $provider) {
+        $user = new User();
+        $user->userName = $userName;
+        $user->provider = $provider;
+
+        $user->save();
+
+        print_r($user->getAttributes());
+    }
+
+    public function usersRemove($userName, $provider) {
+        $user = User::where('userName', $userName)->where('provider', $provider)->first();
+
+        print_r($user->getAttributes());
+
+        $user->delete();
+
     }
 
 }
