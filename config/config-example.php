@@ -1,11 +1,17 @@
 <?php
 
 return [
-    'database_config' => [ 'connection_string' => 'sqlite:' . __DIR__ . '/../data/database.sqlite' ],
-    'file_upload_config' => [
-        'upload_directory' => __DIR__ . '/../data/uploads',
-        'mime_types' => [
-            'text/csv'                                                                => 'attachment'
-        ],
+    'db' => [ 
+    	'driver' => 'sqlite',
+    	'database' => ':memory:'
+    	'exec'	   => 'PRAGMA foreign_keys = ON;',
+    	'options' => [ 'foreign_keys' => 'ON' ]
+    ],
+    'oauth2' => [
+        'provider' => [
+            'clientId'     => '<some client id>',
+            'clientSecret' => '<some secret>',
+            'redirectUri'  => '<some url>',
+        ]
      ]
 ];

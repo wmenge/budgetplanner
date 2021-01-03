@@ -70,7 +70,7 @@
 			<tr class="<?= $transaction->ownAccount ? 'table-secondary text-muted' : '' ?>">
 				<!--<td><input class="form-check-input" type="checkbox" value="" id="select" name="select"></td>-->
 				<td>
-					<?= $transaction->account->iban_formatted() ?> <br /><?= $transaction->account->holder ?>
+					<?=  ($transaction->account) ? $transaction->account->iban_formatted() : "" ?> <br /><?= $transaction->account->holder ?>
 					<?php foreach ($transaction->tags as $tag): ?>
 					  <span class="badge bg-primary"><?= $tag->description ?></span>
 				  	<?php endforeach; ?>

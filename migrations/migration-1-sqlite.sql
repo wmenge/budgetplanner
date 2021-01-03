@@ -67,7 +67,7 @@ WITH RECURSIVE
   )
 SELECT id,parent_id,description,root,level,breadcrump, "[" || path  || "]" as path
     FROM categories_cte
-    order by breadcrump
+    order by breadcrump;
 
 -- ----------------------------
 --  Table structure for "assignment_rules"

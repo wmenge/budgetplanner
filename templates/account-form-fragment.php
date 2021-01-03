@@ -6,7 +6,7 @@
   
   <div class="mb-3">
     <label for="iban" class="form-label">IBAN</label>
-    <input type="text" name="iban" class="form-control" id="iban" value="<?= @$account->iban_formatted() ?>" />
+    <input type="text" name="iban" class="form-control" id="iban" value="<?= ($account) ? $account->iban_formatted() : "" ?>" />
   </div>
 
   <div class="mb-3">
