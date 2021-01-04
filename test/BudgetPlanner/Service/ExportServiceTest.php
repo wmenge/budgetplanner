@@ -6,6 +6,8 @@ use \BudgetPlanner\Model\Category;
 use \BudgetPlanner\Model\Transaction;
 use \BudgetPlanner\Model\Account;
 use \BudgetPlanner\Model\AssignmentRule;
+use \BudgetPlanner\Model\Tag;
+use \BudgetPlanner\Model\User;
 use BudgetPlanner\Service\ExportService;
 
 class ExportServiceTest extends TestCase {
@@ -26,6 +28,13 @@ class ExportServiceTest extends TestCase {
 
 	// TODO: Move to integratino test suite
 	public function testExport(): void {
+
+		$user = new User();
+        $user->userName = 'some user';
+        $user->provider = 'some provider';
+        $user->created_at = 0;
+		$user->updated_at = 0;
+        $user->save();
 
 		$category1 = new Category();
 		$category1->description = 'category 1';
@@ -65,13 +74,30 @@ class ExportServiceTest extends TestCase {
     	$transaction->sequence_id = 1;
     	$transaction->reference = '123';
     	$transaction->description = 'A description';
+    	$transaction->additional_description = 'Another description';
 		$transaction->created_at = 0;
 		$transaction->updated_at = 0;
     	$transaction->save();
 
+    	$tag = new Tag();
+    	$tag->description = 'Some tag';
+    	$tag->created_at = 0;
+		$tag->updated_at = 0;
+		$tag->save();
+		$tag->transactions()->attach($transaction);
+
 		$payload = $this->service->export();
 
 		$expectedPayload = [
+			'users' => [
+				[
+					'id' => 1,
+	                'userName' => 'some user',
+	                'provider' => 'some provider',
+	                'created_at' => '1970-01-01T00:00:00.000000Z',
+	                'updated_at' => '1970-01-01T00:00:00.000000Z'
+                ]
+            ],
 			'categories' => [
 				[
 					'id' => 1,
@@ -111,23 +137,40 @@ class ExportServiceTest extends TestCase {
 			'transactions' => [
 				[
 					'id' => 1,
-                    'category_id' => 2,
-                    'account_id' => 1,
-                    'counter_account_iban' => '',
-                    'counter_account_name' => '',
-                    'sequence_id' => 1,
-                    'date' => 0,
-                    'interest_date' => 0,
+                    'category_id' => '2',
+                    'account_id' => '1',
+                    'counter_account_iban' => null,
+                    'counter_account_name' => null,
+                    'sequence_id' => '1',
+                    'date' => '0',
+                    'interest_date' => '0',
                     'sign' => '+',
-                    'amount' => 100,
-                    'balance_after_transaction' => 100,
+                    'amount' => '100',
+                    'balance_after_transaction' => '100',
                     'currency' => 'EUR',
                     'reference' => '123',
                     'description' => 'A description',
+                    'additional_description' => 'Another description',
                     'created_at' => '1970-01-01T00:00:00.000000Z',
                     'updated_at' => '1970-01-01T00:00:00.000000Z'
 				]
-			]
+			],
+			'tags' => [
+		        [
+		            "id" => 1,
+		            "description" => "Some tag",
+		            "created_at" => '1970-01-01T00:00:00.000000Z',
+		            "updated_at" => '1970-01-01T00:00:00.000000Z'
+		        ]
+		    ],
+		    "tag_transaction" => [
+		        [
+		            "tag_id" => '1',
+		            "transaction_id" => '1',
+		            "created_at" => '0',
+		            "updated_at" => '0'
+		        ]
+	    	]
 		];
 
 		$this->assertEquals($expectedPayload, $payload);
