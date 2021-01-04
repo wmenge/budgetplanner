@@ -47,7 +47,7 @@ class Oauth2Service {
         }
     }
 
-    public function refreshToken() {
+    public function refreshToken($token) {
 
         if (!isset($_SESSION['provider'])) return null;
         
@@ -58,7 +58,7 @@ class Oauth2Service {
         $refreshToken = $token->getRefreshToken();
 
         if (!$refreshToken) {
-            return $response->withHeader('Location', '/login')->withStatus(401);
+            return null;
         }
 
         $newAccessToken = $provider->getAccessToken('refresh_token', [

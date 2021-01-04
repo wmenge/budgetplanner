@@ -29,6 +29,10 @@ class AuthenticationMiddleware
         $response = $handler->handle($request);
         $token = $this->service->getToken();
 
+        if ($token && $token->hasExpired()) {
+            $token = $this->service->RefreshToken($token);
+        }
+
         if (!$token) {
             return $response->withHeader('Location', '/login')->withStatus(401);
         }
@@ -37,10 +41,6 @@ class AuthenticationMiddleware
 
         if (!$user) {
             return $response->withHeader('Location', '/login')->withStatus(401);
-        }
-
-        if ($token->hasExpired()) {
-            $this->service->RefreshToken();
         }
 
         return $response;
