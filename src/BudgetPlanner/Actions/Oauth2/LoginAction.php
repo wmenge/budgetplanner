@@ -20,7 +20,7 @@ final class LoginAction
     {
         $token = $this->service->getToken();
 
-        if ($token) {
+        if ($token && !$token->hasExpired()) {
             return $response->withHeader('Location', '/');
         } else {
             $providerName = $args['provider'];
