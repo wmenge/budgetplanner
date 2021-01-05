@@ -33,7 +33,7 @@ abstract class BaseRenderAction
 
     protected function renderPage(Request $request, Response $response, $args): ResponseInterface
     {
-        $ownerDetails = $this->oauthService->getOwnerDetails($this->oauthService->getToken());
+        $ownerDetails = $this->oauthService->getOwnerDetails($this->oauthService->getOrRefreshToken());
 
         return $this->renderer->render($response, 'default-page.php', [
             'menu'    => $this->renderer->fetch('menu-fragment.php', []),
