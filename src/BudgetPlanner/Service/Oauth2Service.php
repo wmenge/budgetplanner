@@ -18,6 +18,16 @@ class Oauth2Service {
         }
     }
 
+    public function getOrRefreshToken() {
+        $token = $this->getToken();
+
+        if ($token && $token->hasExpired()) {
+            $token = $this->RefreshToken($token);
+        }
+
+        return $token;
+    }
+
     public function setupAuthUrl($providerName, $referer) {
         $provider = $this->getProvider($providerName);
         $authUrl = $provider->getAuthorizationUrl();
@@ -82,6 +92,7 @@ class Oauth2Service {
     }
 
     public function getOwnerDetails($token) {
+        if (!$token) return null;
         if (!isset($_SESSION['provider'])) return null;
 
         $providerName = $_SESSION['provider'];

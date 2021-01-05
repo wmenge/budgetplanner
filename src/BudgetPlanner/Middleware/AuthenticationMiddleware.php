@@ -27,11 +27,7 @@ class AuthenticationMiddleware
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
         $response = $handler->handle($request);
-        $token = $this->service->getToken();
-
-        if ($token && $token->hasExpired()) {
-            $token = $this->service->RefreshToken($token);
-        }
+        $token = $this->service->getOrRefreshToken();
 
         if (!$token) {
             return $response->withHeader('Location', '/login')->withStatus(401);
