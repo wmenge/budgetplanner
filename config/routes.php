@@ -27,7 +27,7 @@ return function (App $app) {
             // Assignment Rules
 
             $group->get('/{category_id}/rules', BudgetPlanner\Actions\AssignmentRules\ListAction::class);
-            $group->get('/{category_id}/rules/new', BudgetPlanner\Actions\AssignmentRules\NewFormAction::class);
+            $group->get('/{category_id}/rules/new', BudgetPlanner\Actions\AssignmentRules\EditFormAction::class);
             $group->get('/{category_id}/rules/{rule_id}', BudgetPlanner\Actions\AssignmentRules\EditFormAction::class);
             // TODO: Should be put, but cannot be natively sent by HTML form
             $group->post('/{category_id}/rules', BudgetPlanner\Actions\AssignmentRules\SaveAction::class);
