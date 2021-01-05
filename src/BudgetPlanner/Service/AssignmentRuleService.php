@@ -9,16 +9,19 @@ class AssignmentRuleService {
      */
     public function match($transactions, $rules) {
 
+        $matches = [];
+
         // TODO: Handle multiple matches
         foreach ($rules as $rule) {
              foreach ($transactions as $transaction) {
-                if (preg_match('/' . $rule->pattern . '/i', $transaction[$rule->field])) {
+                if (preg_match('/' . $rule->pattern . '/i', $transaction[$rule->field]) && $rule->category != $transaction->category) {
                     $transaction->category()->associate($rule->category);
+                    array_push($matches, $transaction);
                 }
             }
         }
 
-        return $transactions;
+        return $matches;
     }
 
     // TODO: validate/clean data!

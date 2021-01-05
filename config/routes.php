@@ -68,10 +68,10 @@ return function (App $app) {
 
             $group->get('[/{filter:categorized|uncategorized|own-accounts}]', BudgetPlanner\Actions\Transaction\ListAction::class);
 
-            $group->get('/categorized/{categoryDescription}', BudgetPlanner\Actions\Transaction\ListAction::class);
+            ///$group->get('/categorized/{categoryDescription}', BudgetPlanner\Actions\Transaction\ListAction::class);
 
-            $group->get('/{filter:categorized|uncategorized}/{match:match}', BudgetPlanner\Actions\Transaction\ListAction::class);
-            $group->post('/{filter:categorized|uncategorized}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
+            $group->get('/{filter:categorized|uncategorized|own-accounts}/{match:match}', BudgetPlanner\Actions\Transaction\ListAction::class);
+            $group->post('/{filter:categorized|uncategorized|own-accounts}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
             
             $group->get('/{id:[0-9]+}', BudgetPlanner\Actions\Transaction\EditFormAction::class);
             // TODO: Should be put, but cannot be natively sent by HTML form

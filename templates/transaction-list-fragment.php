@@ -21,6 +21,8 @@
 	</div>
 </form>-->
 
+<form method="POST" action="/transactions/<?= @$filter ?>/match">
+
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link <?= @$filter=='uncategorized' ? 'active' : ''?>" aria-current="page" href="/transactions/uncategorized">Uncategorized <span class="badge bg-secondary "><?= @$uncategorized_count ?></span></a>
@@ -32,24 +34,17 @@
   <a class="nav-link <?= @$filter=='own-accounts' ? 'active' : ''?>" aria-current="page" href="/transactions/own-accounts">
     Own accounts <span class="badge bg-secondary"><?= @$own_accounts_count ?></span></a>
   </li>
-  
   <li class="nav-item">
     <a class="nav-link" href="/transactions/upload">Upload transactions</a>
   </li>
+  <li class="nav-item">
+    <?php if (@$match): ?>
+	  <button type="submit" class="btn btn-primary btn-sm">Submit Matches</button>
+    <?php else: ?>
+      <a class="btn btn-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Match transactions</a>
+    <?php endif; ?>
+  </li>
 </ul>
-
-<form method="POST" action="/transactions/<?= @$filter ?>/match">
-
-<?php if (@$match): ?>
-		<div class="btn-group">
-			<button type="submit" class="btn btn-primary">Submit Matches</button>
-			<!--<a class="btn btn-outline-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Save matches</a>-->
-		</div>
-	<?php else: ?>
-		<!--<div class="btn-group">
-			<a class="btn btn-outline-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Match transactions</a>
-		</div>-->
-	<?php endif; ?>
 
 <table class="table table-hover">
 	<thead>

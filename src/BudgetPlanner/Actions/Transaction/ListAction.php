@@ -23,11 +23,11 @@ final class ListAction extends BaseRenderAction
     }
 
     public function renderContent($request, $args) {
+
+        // Needed when navigating from reporting TODO: use id's in reporting
         $categoryDescription = $request->getAttribute('categoryDescription', null);
-//print_r($categoryDescription);
-        // todo: service method
         $category = Category::where('description', $categoryDescription)->first();
-  //      print_r($category);
+
         $filter = $request->getAttribute('filter', $categoryDescription ? 'categorized' : 'uncategorized');
         $match = $request->getAttribute('match', null);
         $sort = $this->getQueryParam($request, 'sort', 'date');
@@ -90,17 +90,13 @@ final class ListAction extends BaseRenderAction
 
     protected function match($transactions) {
 
-        $transactions = $this->ruleService->match($transactions, AssignmentRule::all());
+        $matches = $this->ruleService->match($transactions, AssignmentRule::all());
 
         // TODO: Nice way
-        $matchedTransactions = 0;
-
-        foreach ($transactions as $transaction) {
-            if ($transaction->category) $matchedTransactions++;
-        }
+        $matchedTransactions = sizeof($matches);
 
         $this->flash->addMessageNow('success', sprintf('found %s matches', $matchedTransactions));
 
-        return $transactions;
+        return $matchedTransactions == 0 ? $transactions : $matches;
     }
 }
