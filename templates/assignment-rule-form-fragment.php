@@ -5,9 +5,14 @@
   <input type="hidden" name="id" value="<?= @$rule->id ?>" />
   <input type="hidden" name="category_id" value="<?= @$category->id ?>" />
   
-  <div class="mb-3">
-    <label for="" class="form-label">Category</label>
-    <input type="text" name="" class="form-control" id="" value="<?= @$category->description ?>" readonly />
+  <div class="smmb-3">
+    <label for="category_id" class="form-label">Category</label>
+    <select name="category_id" class="form-select" aria-label="Default select example">
+      <option <?= (!@$rule->category) ? "selected" : "" ?>Select a category</option>
+      <?php foreach ($categories as $categoryItem): ?>
+        <option <?= $categoryItem == @$category ? "selected" : "" ?> value="<?= $categoryItem->id ?>"><?= $categoryItem->description ?></option>
+      <?php endforeach; ?>
+    </select>
   </div>
 
   <!--<div class="mb-3">
