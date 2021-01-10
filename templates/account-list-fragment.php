@@ -1,4 +1,4 @@
-<h3>Accounts</h3>
+<h1 class="display-5">Accounts</h1>
 
 <div class="btn-toolbar">
 	<div class="btn-group">

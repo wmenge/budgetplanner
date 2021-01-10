@@ -1,4 +1,4 @@
-<h6>Assignment Rules</h6>
+<h1 class="display-5">Assignment Rules</h1>
 
 <div class="btn-toolbar">
   <div class="btn-group">

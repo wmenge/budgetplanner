@@ -1,4 +1,4 @@
-<h3><?= @$account ? "Edit" : "New" ?> Account</h3>
+<h1 class="display-5"><?= @$account ? "Edit" : "New" ?> Account</h1>
 
 <form method="POST" action="/accounts">
   

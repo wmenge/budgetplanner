@@ -1,4 +1,4 @@
-<h3>Categories</h3>
+<h1 class="display-5">Categories</h1>
 
 <div class="btn-toolbar">
 	<div class="btn-group">

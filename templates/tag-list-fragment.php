@@ -1,4 +1,4 @@
-<h3>Tags</h3>
+<h1 class="display-5">Tags</h1>
 
 <div class="btn-toolbar">
 	<div class="btn-group">

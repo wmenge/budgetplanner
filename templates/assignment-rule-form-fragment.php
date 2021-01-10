@@ -1,4 +1,4 @@
-<h3><?= @$rule ? "Edit" : "New" ?> Assignment Rule</h3>
+<h1 class="display-5"><?= @$rule ? "Edit" : "New" ?> Assignment Rule</h1>
 
 <form method="POST" action="/categories/<?= @$category->id ?>/rules">
   

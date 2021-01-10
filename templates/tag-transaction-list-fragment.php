@@ -1,4 +1,4 @@
-<h3 class="display-6">Transactions</h3>
+<h1 class="display-5">Transactions</h1>
 
 <table class="table table-hover">
 	<thead>

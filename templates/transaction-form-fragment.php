@@ -1,4 +1,4 @@
-<h3><?= @$transaction ? "Edit" : "New" ?> Transaction</h3>
+<h1 class="display-5"><?= @$transaction ? "Edit" : "New" ?> Transaction</h1>
   <div class="card">
   <div class="card-header">
     Tags

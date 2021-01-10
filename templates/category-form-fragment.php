@@ -1,4 +1,4 @@
-<h3><?= @$category ? "Edit" : "New" ?> Category</h3>
+<h1 class="display-5"><?= @$category ? "Edit" : "New" ?> Category</h1>
 
 <form method="POST" action="/categories">
   

@@ -1,4 +1,4 @@
-<h3><?= @$tag ? "Edit" : "New" ?> Tag</h3>
+<h1 class="display-5"><?= @$tag ? "Edit" : "New" ?> Tag</h1>
 
 <form method="POST" action="/tags">
   

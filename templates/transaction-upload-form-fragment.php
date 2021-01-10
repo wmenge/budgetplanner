@@ -1,25 +1,4 @@
-<h3 class="display-5">Transactions</h3>
-
-<!--<div class="btn-toolbar">
-	<?php if (@$match): ?>
-	<?php else: ?>
-		<div class="btn-group">
-			<a class="btn btn-outline-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Match transactions</a>
-		</div>
-	<?php endif; ?>
-</div>-->
-
-<!--<form method="POST" action="/transactions/upload" enctype="multipart/form-data">
-	<div class="row">
-		<div class="input-group mb-3 col-4">  
-			<label for="transactionFile" class="form-label">Upload file</label>
-			<div class="input-group mb-3">
-				<input class="form-control form-control-sm" type="file" name="transactionFile" id="transactionFile">
-				<button class="btn btn-outline-primary btn-sm" type="submit">Upload</button>
-			</div>
-		</div>
-	</div>
-</form>-->
+<h1 class="display-5">Transactions</h1>
 
 <!-- TODO: put in component -->
 <ul class="nav nav-tabs">
