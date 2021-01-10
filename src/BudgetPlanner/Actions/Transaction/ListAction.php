@@ -12,6 +12,7 @@ use \BudgetPlanner\Model\CategoryTreeItem;
 use \BudgetPlanner\Model\Account;
 use \BudgetPlanner\Model\AssignmentRule;
 
+use Illuminate\Database\Capsule\Manager as DB;
 
 final class ListAction extends BaseRenderAction
 {
@@ -24,15 +25,17 @@ final class ListAction extends BaseRenderAction
 
     public function renderContent($request, $args) {
 
-        // Needed when navigating from reporting TODO: use id's in reporting
-        $categoryDescription = $request->getAttribute('categoryDescription', null);
-        $category = Category::where('description', $categoryDescription)->first();
+        $params = $request->getQueryParams();
 
-        $filter = $request->getAttribute('filter', $categoryDescription ? 'categorized' : 'uncategorized');
+        //$category_id = $this->getQueryParam($request, 'category_id', null);
+        //$category = $category_id ? Category::find($category_id) : null;
+        //$month = $this->getQueryParam($request, 'month', null);
+
+        $filter = $request->getAttribute('filter', $params->category_id ? 'categorized' : 'uncategorized');
         $match = $request->getAttribute('match', null);
         $sort = $this->getQueryParam($request, 'sort', 'date');
         
-        $transactions = $this->getTransactionsFor($filter, $category, $sort);
+        $transactions = $this->getTransactionsFor($filter, $params, $sort);
 
         if ($match) {
             $transactions = $this->match($transactions);
@@ -50,12 +53,11 @@ final class ListAction extends BaseRenderAction
             'own_accounts_count' => Transaction::whereIn('counter_account_iban', Account::pluck('iban'))->count(),
             'transactions' => $transactions,
             'categories' => CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get(),
-            'match' => $match,
-
+            'match' => $match
         ]);
     }
 
-    protected function getTransactionsFor($filter, $category, $sort) {
+    protected function getTransactionsFor($filter, $params, $sort) {
 
         switch ($filter) {
             // all transactions with a category
@@ -79,10 +81,16 @@ final class ListAction extends BaseRenderAction
                 break;
         }
 
-        // if provided, filter on category (Also on subcategories?)
-        if ($category) {
-            //print_r($category->id);
-            $result = $result->where('category_id', $category->id);
+        if ($params['category_id']) {
+            $result = $result->where('category_id', $params['category_id']);
+        }
+
+        if ($params['month']) {
+            $result = $result->where(DB::raw("strftime('%m-%Y', datetime(date, 'unixepoch', 'localtime'))"), '=', $params['month']);
+        }
+
+        if ($params['sign']) {
+            $result = $result->where('sign', $params['sign']);
         }
 
         return $result->orderBy($sort)->get();

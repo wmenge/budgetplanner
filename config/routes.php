@@ -67,9 +67,7 @@ return function (App $app) {
         $group->group('/transactions', function (RouteCollectorProxy $group) {
 
             $group->get('[/{filter:categorized|uncategorized|own-accounts}]', BudgetPlanner\Actions\Transaction\ListAction::class);
-
-            ///$group->get('/categorized/{categoryDescription}', BudgetPlanner\Actions\Transaction\ListAction::class);
-
+            
             $group->get('/{filter:categorized|uncategorized|own-accounts}/{match:match}', BudgetPlanner\Actions\Transaction\ListAction::class);
             $group->post('/{filter:categorized|uncategorized|own-accounts}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
             
@@ -88,10 +86,10 @@ return function (App $app) {
 
         // Reporting
 
-        $group->get('/reporting', BudgetPlanner\Actions\Reporting\ReportAction::class);
-        $group->get('/api/reporting/categories[/{categoryDescription}]', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
+        $group->get('/reporting[/{type:expenses|income|periods}[/{month}]]', BudgetPlanner\Actions\Reporting\ReportAction::class);
 
-        $group->get('/api/reporting/categories/{from}/{to}', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
+        $group->get('/api/reporting/categories', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
+        $group->get('/api/reporting/periods', BudgetPlanner\Actions\Api\Reporting\PeriodsReportingAction::class);
 
     })->add(AuthenticationMiddleware::class);
 
