@@ -21,7 +21,7 @@ class Oauth2Service {
     public function getOrRefreshToken() {
         $token = $this->getToken();
 
-        if ($token && $token->hasExpired()) {
+        if (!$token || $token->hasExpired()) {
             $token = $this->RefreshToken($token);
         }
 
@@ -81,10 +81,17 @@ class Oauth2Service {
     }
 
     public function getAuthenticatedUser($token) {
+        if (!$token) return null;
         if (!isset($_SESSION['provider'])) return null;
 
         $providerName = $_SESSION['provider'];
-        $ownerDetails = $this->getOwnerDetails($token);
+
+        if (isset($_SESSION['ownerDetails'])) {
+            $ownerDetails = unserialize($_SESSION['ownerDetails']);
+        } else {
+            $ownerDetails = $this->getOwnerDetails($token);
+            $_SESSION['ownerDetails'] = serialize($ownerDetails);
+        }
 
         $userName = $ownerDetails->getEmail();
         
