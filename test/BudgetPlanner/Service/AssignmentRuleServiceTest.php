@@ -46,9 +46,7 @@ class AssignmentRuleServiceTest extends TestCase {
 	public function testAssignCategories() {
 
 		$this->transactionService->import(dirname(__FILE__) . '/test1.csv', 'r');
-		//print(Account::all());
-		//print(Transaction::all());
-
+		
 		// Setup a Category and Assignment Rule
 		$category = new Category();
  		$category->description = "A category";
@@ -62,8 +60,8 @@ class AssignmentRuleServiceTest extends TestCase {
 
         $matches = $this->assignmentRuleService->match(Transaction::all(), AssignmentRule::all());
 
-        $this->assertEquals(null, $matches[0]->category);
-        $this->assertEquals($category->id, $matches[1]->category->id);
+        $this->assertEquals(1, sizeof($matches));
+        $this->assertEquals($category->id, $matches[0]->category->id);
 	}
 
 }

@@ -2,9 +2,8 @@
 
 namespace BudgetPlanner\Actions\Transaction;
 
+use Psr\Container\ContainerInterface;
 use BudgetPlanner\Actions\BaseRenderAction;
-use Slim\Views\PhpRenderer;
-use Slim\Flash\Messages;
 use BudgetPlanner\Service\TransactionService;
 use BudgetPlanner\Service\AssignmentRuleService;
 use \BudgetPlanner\Model\Transaction;
@@ -15,12 +14,11 @@ use \BudgetPlanner\Model\AssignmentRule;
 
 final class UploadFormAction extends BaseRenderAction
 {
-	public function __construct(PhpRenderer $renderer, AssignmentRuleService $ruleService, TransactionService $transactionService, Messages $flash)
+	public function __construct(ContainerInterface $c, AssignmentRuleService $ruleService, TransactionService $transactionService)
     {
-    	$this->renderer = $renderer;
-        $this->ruleService = $ruleService;
+        parent::__construct($c);
+    	$this->ruleService = $ruleService;
         $this->transactionService = $transactionService;
-        $this->flash = $flash;
     }
 
     public function renderContent($request, $args) {
