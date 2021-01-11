@@ -91,6 +91,8 @@ return function (App $app) {
         $group->get('/api/reporting/categories', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
         $group->get('/api/reporting/periods', BudgetPlanner\Actions\Api\Reporting\PeriodsReportingAction::class);
 
+        $group->get('/api/export', BudgetPlanner\Actions\Api\Reporting\ExportAction::class);
+
     })->add(AuthenticationMiddleware::class);
 
     // Security
