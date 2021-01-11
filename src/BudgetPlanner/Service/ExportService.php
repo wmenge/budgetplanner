@@ -4,6 +4,7 @@ namespace BudgetPlanner\Service;
 
 use Illuminate\Database\Capsule\Manager as DB;
 
+use \BudgetPlanner\Model\CategoryTreeItem;
 use \BudgetPlanner\Model\Category;
 use \BudgetPlanner\Model\AssignmentRule;
 use \BudgetPlanner\Model\Account;
@@ -46,7 +47,7 @@ class ExportService {
         // flat export, todo: json like nested export without unneeded keys
     	return [
             'users' => User::all()->toArray(),
-            'categories' => Category::all()->toArray(),
+            'categories' => CategoryTreeItem::select('id', 'parent_id', 'description')->get()->toArray(),
             'rules' => AssignmentRule::all()->toArray(),
             'tags' => Tag::all()->toArray(),
             'accounts' => Account::all()->toArray(),

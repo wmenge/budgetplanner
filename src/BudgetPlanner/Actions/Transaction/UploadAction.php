@@ -21,7 +21,6 @@ final class UploadAction
     {
         $uploadedFiles = $request->getUploadedFiles();
         $uploadedFile = $uploadedFiles['transactionFile'];
-        //print_r($uploadedFile);
         $this->service->import($uploadedFile->getFilePath());
         return $response->withHeader('Location', '/transactions')->withStatus(303);
     }

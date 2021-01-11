@@ -7,7 +7,7 @@ use \BudgetPlanner\Model\Transaction;
 
 final class NewFormAction extends BaseRenderAction
 {
-    public function renderContent($args) {
+    public function renderContent($request, $args) {
         return $this->renderer->fetch('transaction-form-fragment.php', []);
     }
 }
