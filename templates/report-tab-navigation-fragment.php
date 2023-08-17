@@ -10,4 +10,24 @@
   <a class="nav-link <?= @$type=='income' ? 'active' : ''?>" aria-current="page" href="/reporting/income">
     Income</a>
   </li>
+
+  <li class="nav-item">
+
+<div class="">
+  <div class="">
+    <div class="form-floating">
+    <select id="month" name="month" class="form-select" onchange="filter(this)">
+      <option value="">Choose a filter</option>
+      <?php foreach ($months as $monthItem): ?>
+        <option <?= $monthItem->period == $month ? 'selected' : '' ?> value="<?= $monthItem->period ?>"><?= $monthItem->period ?></option>
+      <?php endforeach; ?>
+    </select>
+    <label for="floatingSelect">Month</label>
+  </div>
+
+  </div>
+</div>
+
+</li>
+
 </ul>

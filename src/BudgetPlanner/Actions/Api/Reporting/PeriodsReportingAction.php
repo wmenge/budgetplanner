@@ -20,7 +20,7 @@ final class PeriodsReportingAction
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
     	$query = <<<QUERY
-			select strftime('%m-%Y', datetime(date, 'unixepoch', 'localtime')) as period, sign, sum(amount) as sum
+			select strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime')) as period, sign, sum(amount) as sum
 			from transactions
 			--left join categories_tree on transactions.category_id = categories_tree.id
 			--left join categories on categories_tree.path like "%'" || categories.id || "'%"  

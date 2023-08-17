@@ -41,7 +41,7 @@ final class CategoriesReportingAction
 		}
 
 		if ($params['month']) {
-			$query = $query->where(DB::raw("strftime('%m-%Y', datetime(date, 'unixepoch', 'localtime'))"), '=', $params['month']);
+			$query = $query->where(DB::raw("strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime'))"), '=', $params['month']);
 		}
 
 		//DB::enableQueryLog(); // Enable query log

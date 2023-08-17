@@ -86,7 +86,7 @@ final class ListAction extends BaseRenderAction
         }
 
         if ($params['month']) {
-            $result = $result->where(DB::raw("strftime('%m-%Y', datetime(date, 'unixepoch', 'localtime'))"), '=', $params['month']);
+            $result = $result->where(DB::raw("strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime'))"), '=', $params['month']);
         }
 
         if ($params['sign']) {

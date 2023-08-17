@@ -14,6 +14,11 @@ class Transaction extends Model {
         if (!$this->fmt) $this->fmt = \NumberFormatter::create( 'nl_NL', \NumberFormatter::CURRENCY );
         return $this->fmt->formatCurrency($this->amount, $this->currency);
     }
+
+    public function balance_after_transaction_formatted() {
+        if (!$this->fmt) $this->fmt = \NumberFormatter::create( 'nl_NL', \NumberFormatter::CURRENCY );
+        return $this->fmt->formatCurrency($this->balance_after_transaction, $this->currency);
+    }
 	
     public function account()
     {

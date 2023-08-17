@@ -32,6 +32,7 @@ abstract class AbstractCSVReader implements CSVIteratorInterface {
 		if ($this->valid()) {
 			$this->current = $this->readLine();
 			$this->line++;
+			if ($this->current == null) $this->next();
 			//echo("key: " . $this->line . PHP_EOL);
 		}
 	}

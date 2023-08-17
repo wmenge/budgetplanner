@@ -1,6 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
-<canvas id="myChart" width="100" height="40"></canvas>
+  <canvas id="myChart"></canvas>
+
 <script>
 
   const colorScheme = [
@@ -30,9 +31,23 @@
     var ctx = canvas.getContext('2d');
     var config = {
       type: 'bar',
+      /*options: {
+        responsive: true,
+        maintainAspectRatio: false
+      },*/
       data: {
         datasets: []
-      }
+      },
+  
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
     };
 
     var chart = new Chart(ctx, config);

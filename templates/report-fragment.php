@@ -1,8 +1,7 @@
-<h1 class="display-5">Reports</h1>
-
-<?= $this->fetch("report-tab-navigation-fragment.php", [ 'type' => $type ]); ?>
-
-<div class="row py-3 align-items-center  ">
+<!--<h1 class="display-5">Reports</h1>-->
+<?= $this->fetch("report-tab-navigation-fragment.php", [ 'type' => $type, 'months' => $months, 'month' => $month ]); ?>
+<!--
+<div class="row py-3 align-items-center">
   <div class="col-2">
   	<div class="form-floating">
     <select id="month" name="month" class="form-select" onchange="filter(this)">
@@ -16,6 +15,7 @@
 
   </div>
 </div>
+-->
 
 <?php switch($type): ?>
 <?php case 'expenses': ?>

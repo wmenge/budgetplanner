@@ -1,12 +1,12 @@
 <?php
 
-namespace BudgetPlanner\Middleware;
+namespace SimpleGTD\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
-use BudgetPlanner\Service\Oauth2Service;
+use SimpleGTD\Service\Oauth2Service;
 
 class AuthenticationMiddleware
 {

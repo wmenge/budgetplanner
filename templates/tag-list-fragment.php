@@ -1,5 +1,3 @@
-<h1 class="display-5">Tags</h1>
-
 <div class="btn-toolbar">
 	<div class="btn-group">
 		<a class="btn btn-outline-primary btn-sm" href="/tags/new" role="button">New Tag</a>

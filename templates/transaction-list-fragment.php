@@ -1,4 +1,4 @@
-<h1 class="display-5">Transactions</h1>
+<!--<h1 class="display-5">Transactions</h1>-->
 
 <form method="POST" action="/transactions/<?= @$filter ?>/match">
 

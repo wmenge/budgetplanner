@@ -21,7 +21,9 @@ class Oauth2Service {
     public function getOrRefreshToken() {
         $token = $this->getToken();
 
-        if (!$token || $token->hasExpired()) {
+        //print_r($token);
+
+        if (!$token || (!empty($token->getExpires()) && $token->hasExpired())) {
             $token = $this->RefreshToken($token);
         }
 

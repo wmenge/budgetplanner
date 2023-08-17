@@ -1,6 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
-<canvas id="myChart" width="100" height="40"></canvas>
+<canvas id="myChart"></canvas>
 <script>
 
   var monthSelect = document.getElementById("month");
@@ -101,9 +101,7 @@
   }
 
   function buildUrl(path, queryParams) {
-    //console.log(window.location, base);
     let url = new URL(path, window.location.origin);
-console.log(url);
 
     for (const [key, value] of Object.entries(queryParams)) {
       url.searchParams.append(key, value);

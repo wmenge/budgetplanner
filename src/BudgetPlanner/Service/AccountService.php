@@ -32,7 +32,7 @@ class AccountService {
         }
 
         if (array_key_exists('iban', $data)) {
-            $account->iban = $data['iban'];
+            $account->iban = str_replace([' ', "&nbsp;"], "", htmlentities($data['iban'], null, 'utf-8'));
         }
 
         if (array_key_exists('description', $data)) {

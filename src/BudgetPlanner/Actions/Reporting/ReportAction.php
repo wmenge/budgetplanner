@@ -10,7 +10,7 @@ final class ReportAction extends BaseRenderAction
     public function renderContent($request, $args) {
 
     	$type = $request->getAttribute('type', 'periods');
-    	$month = $request->getAttribute('month', '12-2020');
+    	$month = $request->getAttribute('month', date("Y-m"));
     	
     	$yearQuery = <<<QUERY
 			select distinct strftime('%Y', datetime(date, 'unixepoch', 'localtime')) as period
@@ -20,7 +20,7 @@ final class ReportAction extends BaseRenderAction
     	$years = DB::select(DB::raw($yearQuery));
 
     	$monthsQuery = <<<QUERY
-			select distinct strftime('%m-%Y', datetime(date, 'unixepoch', 'localtime')) as period
+			select distinct strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime')) as period
 			from transactions order by period
 		QUERY;
 

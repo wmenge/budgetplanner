@@ -12,5 +12,10 @@ class Account extends Model {
     {
         return $this->hasMany('BudgetPlanner\Model\Transaction');
     }
+
+    public function balance()
+    {
+        return $this->transactions()->orderBy('date', 'DESC')->first()->balance_after_transaction_formatted();
+    }
 	
 }

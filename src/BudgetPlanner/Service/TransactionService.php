@@ -18,12 +18,12 @@ class TransactionService {
 
     	$transactionsData = new CSVReaderRabo($path);
 
+       // print_r($transactionsData);
+
         // TODO: Check if transaction exists
     	foreach ($transactionsData as $data) {
-    		$transaction = new Transaction();
+            $transaction = new Transaction();
             $this->map($data, $transaction);
-
-            //print_r($transaction->getAttributes());
 
             if (!Transaction::where('account_id', '=', $transaction->account_id)
                 ->where('sequence_id', '=', $transaction->sequence_id)

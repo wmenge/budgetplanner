@@ -39,7 +39,7 @@ class CSVReaderRabo extends AbstractCSVReader implements CSVIteratorInterface {
 			return $result;
 
 		} else {
-			return [];
+			return null;
 		}
 	}
 
