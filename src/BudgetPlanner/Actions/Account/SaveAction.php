@@ -12,6 +12,9 @@ use \BudgetPlanner\Model\Account;
 
 final class SaveAction
 {
+    private AccountService $service;
+    private Messages $flash;
+
 	public function __construct(AccountService $service, Messages $flash)
     {
         $this->service = $service;

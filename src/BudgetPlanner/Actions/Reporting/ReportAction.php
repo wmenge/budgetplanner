@@ -17,14 +17,14 @@ final class ReportAction extends BaseRenderAction
 			from transactions order by period
 		QUERY;
 
-    	$years = DB::select(DB::raw($yearQuery));
+		$years = DB::select(DB::raw($yearQuery)->getValue(DB::connection()->getQueryGrammar()));
 
     	$monthsQuery = <<<QUERY
 			select distinct strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime')) as period
 			from transactions order by period
 		QUERY;
 
-    	$months = DB::select(DB::raw($monthsQuery));
+    	$months = DB::select(DB::raw($monthsQuery)->getValue(DB::connection()->getQueryGrammar()));
 
         return $this->renderer->fetch('report-fragment.php', [ 
         	'type' => $type,

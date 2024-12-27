@@ -9,7 +9,7 @@ final class EditFormAction extends BaseRenderAction
 {
     public function renderContent($request, $args) {
         return $this->renderer->fetch('account-form-fragment.php', [
-            'account' => Account::find($args['id'])
+            'account' => isset($args['id']) ? Account::find($args['id']) : new Account()
         ]);
     }
 }

@@ -12,9 +12,10 @@ use \BudgetPlanner\Model\Tag;
 
 final class AddTagAction
 {
+    private Messages $flash;
+    
 	public function __construct(Messages $flash)
     {
-        //$this->service = $service;
         $this->flash = $flash;
     }
 

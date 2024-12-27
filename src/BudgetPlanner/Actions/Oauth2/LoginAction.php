@@ -10,7 +10,7 @@ use BudgetPlanner\Service\Oauth2Service;
 
 final class LoginAction
 {
-    private $service;
+    private Oauth2Service $service;
 
     public function __construct(Oauth2Service $service) {
         $this->service = $service;
@@ -21,7 +21,7 @@ final class LoginAction
         $token = $this->service->getToken();
 
         if ($token && !$token->hasExpired()) {
-            return $response->withHeader('Location', '/');
+            return $response->withHeader('Location', '/')->withStatus(302);
         } else {
             $providerName = $args['provider'];
             $referer = $request->getQueryParams()['referer'];
@@ -29,7 +29,7 @@ final class LoginAction
             
             $authUrl = $this->service->setupAuthUrl($providerName, $referer);
 
-            return $response->withHeader('Location', $authUrl);
+            return $response->withHeader('Location', $authUrl)->withStatus(302);
         }
     }
 }

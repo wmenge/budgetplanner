@@ -12,6 +12,8 @@ use \BudgetPlanner\Model\Transaction;
 
 final class UploadAction
 {
+    private TransactionService $service;
+    
     public function __construct(TransactionService $service)
     {
         $this->service = $service;

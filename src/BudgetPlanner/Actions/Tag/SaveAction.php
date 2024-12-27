@@ -12,6 +12,9 @@ use \BudgetPlanner\Model\Tag;
 
 final class SaveAction
 {
+    private TagService $service;
+    private Messages $flash;
+
 	public function __construct(TagService $service, Messages $flash)
     {
         $this->service = $service;

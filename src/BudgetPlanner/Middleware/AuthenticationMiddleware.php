@@ -1,12 +1,14 @@
 <?php
 
-namespace SimpleGTD\Middleware;
+namespace BudgetPlanner\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 
-use SimpleGTD\Service\Oauth2Service;
+use Slim\Factory\AppFactory;
+
+use BudgetPlanner\Service\Oauth2Service;
 
 class AuthenticationMiddleware
 {
@@ -26,19 +28,45 @@ class AuthenticationMiddleware
      */
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        $response = $handler->handle($request);
         $token = $this->service->getOrRefreshToken();
 
         if (!$token) {
-            return $response->withHeader('Location', '/login')->withStatus(401);
+            // TODO instead of creating, get from index.php where it is created
+            $app = AppFactory::create();
+            $response = $app->getResponseFactory()->createResponse();
+            $response->getBody()->write('Unauthorized');
+            return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
         $user = $this->service->getAuthenticatedUser($token);  
 
-        if (!$user) {
-            return $response->withHeader('Location', '/login')->withStatus(401);
+        if (!is_object($user)) {
+            // TODO instead of creating, get from index.php where it is created
+            $app = AppFactory::create();
+            $response = $app->getResponseFactory()->createResponse();
+            $response->getBody()->write('Unauthorized');
+            return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
-        return $response;
+        return $handler->handle($request);
+
+        $token = $this->service->getOrRefreshToken();
+
+        // if (!$token) {
+            
+        //     //$response->getBody()->write('Unauthorized');
+        //     //return $response->withHeader('Location', '/login')->withStatus(401);
+        //     return $response->withStatus(401);
+        // }
+
+        // $user = $this->service->getAuthenticatedUser($token);  
+
+        // if (!is_object($user)) {
+        //     //$response->getBody()->write('Unauthorized');
+        //     //return $response->withHeader('Location', '/login')->withStatus(401);
+        //     return $response->withStatus(401);d
+        // }
+
+        // return $handler->handle($request);
     }
 }

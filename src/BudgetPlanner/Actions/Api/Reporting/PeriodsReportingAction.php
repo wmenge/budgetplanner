@@ -29,7 +29,7 @@ final class PeriodsReportingAction
 			group by period, sign
 		QUERY;
 
-		$data = DB::select(DB::raw($query));
+		$data = DB::select(DB::raw($query)->getValue(DB::connection()->getQueryGrammar()));
         $payload = json_encode($data, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 
 		$response->getBody()->write($payload);

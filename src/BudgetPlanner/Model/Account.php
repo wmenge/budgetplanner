@@ -15,7 +15,9 @@ class Account extends Model {
 
     public function balance()
     {
-        return $this->transactions()->orderBy('date', 'DESC')->first()->balance_after_transaction_formatted();
+        error_log(print_r($this->iban, TRUE)); 
+        error_log(print_r($this->transactions()->count(), TRUE)); 
+        return $this->transactions()->orderBy('date', 'DESC')->first()?->balance_after_transaction_formatted();
     }
 	
 }

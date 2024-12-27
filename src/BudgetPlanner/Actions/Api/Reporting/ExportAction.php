@@ -11,6 +11,8 @@ use \BudgetPlanner\Service\ExportService;
 // move to api namespace
 final class ExportAction
 {
+    private ExportService $exportService;
+    
 	public function __construct(ExportService $exportService)
     {
         $this->exportService = $exportService;

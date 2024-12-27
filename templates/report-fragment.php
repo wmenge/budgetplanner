@@ -25,7 +25,7 @@
   <?= $this->fetch("report-categories-fragment.php", [ 'type' => $type ]); ?>
   <?php break; ?>
 <?php case 'periods': ?>
-  <?= $this->fetch("report-periods-fragment.php"); ?>
+  <?= $this->fetch("report-periods-fragment.php", [ 'type' => $type ]); ?>
   <? break; ?>
 <?php break; default: ?>
   Should not happen

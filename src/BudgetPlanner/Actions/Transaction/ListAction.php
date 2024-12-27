@@ -16,6 +16,9 @@ use Illuminate\Database\Capsule\Manager as DB;
 
 final class ListAction extends BaseRenderAction
 {
+    private AssignmentRuleService $ruleService;
+    private TransactionService $transactionService;
+
 	public function __construct(ContainerInterface $c, AssignmentRuleService $ruleService, TransactionService $transactionService)
     {
         parent::__construct($c);
@@ -27,11 +30,15 @@ final class ListAction extends BaseRenderAction
 
         $params = $request->getQueryParams();
 
-        //$category_id = $this->getQueryParam($request, 'category_id', null);
+        //$category_id = $this->getQueryParams()['$request, 'category_id', null);
         //$category = $category_id ? Category::find($category_id) : null;
-        //$month = $this->getQueryParam($request, 'month', null);
+        //$month = $this->getQueryParams()['$request, 'month', null);
 
-        $filter = $request->getAttribute('filter', $params->category_id ? 'categorized' : 'uncategorized');
+        error_log(print_r($params, TRUE)); 
+        //error_log(print_r($this->transactions()->count(), TRUE)); 
+
+
+        $filter = $request->getAttribute('filter', isset($params['category_id']) ? 'categorized' : 'uncategorized');
         $match = $request->getAttribute('match', null);
         $sort = $this->getQueryParam($request, 'sort', 'date');
         
@@ -52,7 +59,9 @@ final class ListAction extends BaseRenderAction
             'categorized_count' => Transaction::whereNotNull('category_id')->count(),
             'own_accounts_count' => Transaction::whereIn('counter_account_iban', Account::pluck('iban'))->count(),
             'transactions' => $transactions,
-            'categories' => CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get(),
+            'categories' => isset($args['id']) ? 
+                CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get() : 
+                CategoryTreeItem::orderBy('breadcrump')->get(),
             'match' => $match
         ]);
     }
@@ -81,15 +90,15 @@ final class ListAction extends BaseRenderAction
                 break;
         }
 
-        if ($params['category_id']) {
+        if (isset($params['category_id'])) {
             $result = $result->where('category_id', $params['category_id']);
         }
 
-        if ($params['month']) {
+        if (isset($params['month'])) {
             $result = $result->where(DB::raw("strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime'))"), '=', $params['month']);
         }
 
-        if ($params['sign']) {
+        if (isset($params['sign'])) {
             $result = $result->where('sign', $params['sign']);
         }
 

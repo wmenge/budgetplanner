@@ -11,7 +11,7 @@ final class EditFormAction extends BaseRenderAction
     public function renderContent($request, $args) {
         return $this->renderer->fetch('assignment-rule-form-fragment.php', [
             'category' => Category::find($args['category_id']),
-            'rule' => AssignmentRule::find($args['rule_id']),
+            'rule' => isset($args['rule_id']) ? AssignmentRule::find($args['rule_id']) : new AssignmentRule(),
             'categories' => Category::orderBy('description')->get(),
         ]);
     }

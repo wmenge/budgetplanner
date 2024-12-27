@@ -10,7 +10,7 @@ final class EditFormAction extends BaseRenderAction
 {
     public function renderContent($request, $args) {
         return $this->renderer->fetch('tag-form-fragment.php', [
-            'tag' => Tag::find($args['id']),
+            'tag' => isset($args['id']) ? Tag::find($args['id']) : new Tag(),
             'categories' => Category::orderBy('description')->get(),
         ]);
     }

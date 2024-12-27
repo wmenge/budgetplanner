@@ -12,6 +12,9 @@ use \BudgetPlanner\Model\AssignmentRule;
 
 final class SaveAction
 {
+    private AssignmentRuleService $service;
+    private Messages $flash;
+    
 	public function __construct(AssignmentRuleService $service, Messages $flash)
     {
         $this->service = $service;

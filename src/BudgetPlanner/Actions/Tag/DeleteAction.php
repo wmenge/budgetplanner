@@ -10,7 +10,7 @@ use \BudgetPlanner\Model\Tag;
 
 final class DeleteAction
 {
-	protected $flash;
+	protected Messages $flash;
     
     public function __construct(Messages $flash)
     {

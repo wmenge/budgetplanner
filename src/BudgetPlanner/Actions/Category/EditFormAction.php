@@ -10,8 +10,10 @@ final class EditFormAction extends BaseRenderAction
 {
     public function renderContent($request, $args) {
         return $this->renderer->fetch('category-form-fragment.php', [
-            'category' => Category::find($args['id']),
-            'categories_tree' => CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get()
+            'category' => isset($args['id']) ?  Category::find($args['id']) : new Category(),
+            'categories_tree' => isset($args['id']) ? 
+            CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get() : 
+            CategoryTreeItem::orderBy('breadcrump')->get()
         ]);
     }
 }

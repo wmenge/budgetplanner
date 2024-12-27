@@ -14,7 +14,9 @@ class AssignmentRuleService {
         // TODO: Handle multiple matches
         foreach ($rules as $rule) {
              foreach ($transactions as $transaction) {
-                if (preg_match('/' . $rule->pattern . '/i', $transaction[$rule->field]) && $rule->category != $transaction->category) {
+                $pattern = '/' . $rule->pattern . '/i';
+                $subject = $transaction[$rule->field];
+                if (!is_null($subject) && preg_match($pattern, $subject) && $rule->category != $transaction->category) {
                     $transaction->category()->associate($rule->category);
                     array_push($matches, $transaction);
                 }

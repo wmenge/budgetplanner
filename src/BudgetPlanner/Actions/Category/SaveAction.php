@@ -12,6 +12,9 @@ use \BudgetPlanner\Model\Category;
 
 final class SaveAction
 {
+    private CategoryService $service;
+    private Messages $flash;
+
 	public function __construct(CategoryService $service, Messages $flash)
     {
         $this->service = $service;

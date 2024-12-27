@@ -11,7 +11,7 @@ use BudgetPlanner\Service\Oauth2Service;
 
 final class CallbackAction
 {
-    private $service;
+    private Oauth2Service $service;
 
     public function __construct(Oauth2Service $service) {
         $this->service = $service;
@@ -23,6 +23,6 @@ final class CallbackAction
         $oauthState = $_GET['state'];
 
         $this->service->retrieveNewToken($providerName, $oauthState);
-        return $response->withHeader('Location', '/');
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 }

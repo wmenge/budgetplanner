@@ -14,6 +14,9 @@ use \BudgetPlanner\Model\AssignmentRule;
 
 final class UploadFormAction extends BaseRenderAction
 {
+    private AssignmentRuleService $ruleService;
+    private TransactionService $transactionService;
+
 	public function __construct(ContainerInterface $c, AssignmentRuleService $ruleService, TransactionService $transactionService)
     {
         parent::__construct($c);
@@ -24,7 +27,7 @@ final class UploadFormAction extends BaseRenderAction
     public function renderContent($request, $args) {
         $filter = $request->getAttribute('filter', 'upload');
         //$match = $request->getAttribute('match', null);
-        //$sort = $this->getQueryParam($request, 'sort', 'date');
+        //$sort = $this->getQueryParams()['$request, 'sort', 'date');
         
         //$transactions = $this->getTransactionsFor($filter, $sort);
 
