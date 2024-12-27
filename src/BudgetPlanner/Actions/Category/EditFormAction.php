@@ -10,7 +10,7 @@ final class EditFormAction extends BaseRenderAction
 {
     public function renderContent($request, $args) {
         return $this->renderer->fetch('category-form-fragment.php', [
-            'detail' => isset($args['detail']) ?  $args['detail'] : 'rules',
+            'detail' => isset($args['detail']) ?  $args['detail'] : 'transactions',
             'category' => isset($args['id']) ?  Category::find($args['id']) : new Category(),
             'categories' => Category::orderBy('description')->get(),
             'categories_tree' => isset($args['id']) ? 

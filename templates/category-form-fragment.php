@@ -28,12 +28,16 @@
 
 <ul class="nav nav-tabs">
   <li class="nav-item">
+    <a class="nav-link <?= @$detail=='transactions' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/transactions">
+    Transactions <span class="badge bg-secondary"><?= @$category->transactions->count() ?></span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link <?= @$detail=='rules' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/rules">
       Rules <span class="badge bg-secondary"><?= @$category->rules->count() ?></span></a>
   </li>
   <li class="nav-item">
-  <a class="nav-link <?= @$detail=='transactions' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/transactions">
-    Transactions <span class="badge bg-secondary"><?= @$category->transactions->count() ?></span></a>
+    <a class="nav-link <?= @$detail=='categories' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/categories">
+      Categories <span class="badge bg-secondary"><?= @$category->children->count() ?></span></a>
   </li>
 </ul>
 
@@ -46,3 +50,8 @@
 <?php if(@$detail=='transactions'): ?>
   <?= $this->fetch("transaction-list-fragment.php", [ 'transactions' => $category->transactions ]); ?>
 <?php endif; ?>
+
+<?php if(@$detail=='categories'): ?>
+  <?= $this->fetch("category-list-fragment.php", [ 'categories' => $category->children, 'category' => $category ]); ?>
+<?php endif; ?>
+

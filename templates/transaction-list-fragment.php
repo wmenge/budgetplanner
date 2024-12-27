@@ -1,6 +1,6 @@
-<!-- <h1 class="display-5">Transactions</h1> -->
-
 <form method="POST" action="/transactions/<?= @$filter ?>/match">
+
+<?php if (isset($filter)): ?>
 
 <ul class="nav nav-tabs">
   <li class="nav-item">
@@ -24,6 +24,8 @@
     <?php endif; ?>
   </li>
 </ul>
+
+<?php endif; ?>
 
 <table class="table table-hover">
 	<thead>
