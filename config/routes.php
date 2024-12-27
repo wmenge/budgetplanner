@@ -17,6 +17,7 @@ return function (App $app) {
             // Categories
 
             $group->get('', BudgetPlanner\Actions\Category\ListAction::class);
+            $group->get('/{parent}/new', BudgetPlanner\Actions\Category\EditFormAction::class);
             $group->get('/new', BudgetPlanner\Actions\Category\EditFormAction::class);
             $group->get('/{id}[/{detail:rules|transactions|categories}]', BudgetPlanner\Actions\Category\EditFormAction::class);
             // TODO: Should be put, but cannot be natively sent by HTML form

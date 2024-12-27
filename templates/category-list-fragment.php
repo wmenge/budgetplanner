@@ -2,7 +2,7 @@
 
 <div class="btn-toolbar">
 	<div class="btn-group">
-		<a class="btn btn-outline-primary btn-sm" href="/categories/new" role="button">New Category</a>
+		<a class="btn btn-outline-primary btn-sm" href="/categories/<?= isset($category) ? $category->id . '/' : '' ?>new" role="button">New Category</a>
 	</div>
 </div>
 
@@ -42,6 +42,6 @@
 
 <div class="btn-toolbar">
 	<div class="btn-group">
-		<a class="btn btn-outline-primary btn-sm" href="/categories/new" role="button">New Category</a>
+		<a class="btn btn-outline-primary btn-sm" href="/categories/<?= isset($category) ? $category->id . '/' : '' ?>new" role="button">New Category</a>
 	</div>
 </div>
