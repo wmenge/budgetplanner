@@ -26,4 +26,7 @@ class Category extends Model {
         return $this->hasMany('BudgetPlanner\Model\AssignmentRule');
     }
 
+    public function tree() {
+        return $this->hasOne('BudgetPlanner\Model\CategoryTreeItem', 'id', 'id');
+    }
 }

@@ -1,4 +1,16 @@
-<h1 class="display-5"><?= @$category ? "Edit" : "New" ?> Category</h1>
+<?php if(@$category->exists): ?>
+
+  <?php foreach ($category->tree->breadCrumpPath() as $breadCrump): ?>
+    <?php if($breadCrump->id != $category->id): ?>
+    <a href="/categories/<?= @$breadCrump->id ?>"><?= @$breadCrump->description ?></a> » 
+    <?php endif; ?>
+  <?php endforeach; ?> 
+  
+  <?= @$category->description ?>
+
+<?php endif; ?>
+
+<h1 class="display-5"><?= @$category->exists ? "Edit" : "New" ?> Category</h1>
 
 <form method="POST" action="/categories">
   
@@ -23,35 +35,37 @@
 
 </form>
 
+<?php if(@$category->exists): ?>
 
-<hr/>
+  <hr/>
 
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link <?= @$detail=='transactions' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/transactions">
-    Transactions <span class="badge bg-secondary"><?= @$category->transactions->count() ?></span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <?= @$detail=='rules' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/rules">
-      Rules <span class="badge bg-secondary"><?= @$category->rules->count() ?></span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <?= @$detail=='categories' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/categories">
-      Categories <span class="badge bg-secondary"><?= @$category->children->count() ?></span></a>
-  </li>
-</ul>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link <?= @$detail=='transactions' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/transactions">
+      Transactions <span class="badge bg-secondary"><?= @$category->transactions->count() ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <?= @$detail=='rules' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/rules">
+        Rules <span class="badge bg-secondary"><?= @$category->rules->count() ?></span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <?= @$detail=='categories' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/categories">
+        Categories <span class="badge bg-secondary"><?= @$category->children->count() ?></span></a>
+    </li>
+  </ul>
 
-<hr/>
+  <hr/>
 
-<?php if(@$detail=='rules'): ?>
-  <?= $this->fetch("assignment-rules-list-fragment.php", [ 'category' => $category ]); ?>
+  <?php if(@$detail=='rules'): ?>
+    <?= $this->fetch("assignment-rules-list-fragment.php", [ 'category' => $category ]); ?>
+  <?php endif; ?>
+
+  <?php if(@$detail=='transactions'): ?>
+    <?= $this->fetch("transaction-list-fragment.php", [ 'transactions' => $category->transactions ]); ?>
+  <?php endif; ?>
+
+  <?php if(@$detail=='categories'): ?>
+    <?= $this->fetch("category-list-fragment.php", [ 'categories' => $category->children, 'category' => $category ]); ?>
 <?php endif; ?>
 
-<?php if(@$detail=='transactions'): ?>
-  <?= $this->fetch("transaction-list-fragment.php", [ 'transactions' => $category->transactions ]); ?>
 <?php endif; ?>
-
-<?php if(@$detail=='categories'): ?>
-  <?= $this->fetch("category-list-fragment.php", [ 'categories' => $category->children, 'category' => $category ]); ?>
-<?php endif; ?>
-

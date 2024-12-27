@@ -8,24 +8,9 @@ class CategoryTreeItem extends Model {
 
     protected $table = 'categories_tree';
 
-	/*public function parent()
-    {
-        return $this->belongsTo('BudgetPlanner\Model\Category', 'parent_id');
+	public function breadCrumpPath() {
+        // breadcrumpobject is never supplied by user, but always calculated by database, so it should be save to evaluate
+        return json_decode($this->breadcrumpobject);
     }
-
-	public function children()
-    {
-        return $this->hasMany('BudgetPlanner\Model\Category', 'parent_id');
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany('BudgetPlanner\Model\Transaction');
-    }
-
-    public function rules()
-    {
-        return $this->hasMany('BudgetPlanner\Model\AssignmentRule');
-    }*/
 
 }
