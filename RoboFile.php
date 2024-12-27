@@ -20,6 +20,7 @@ use \BudgetPlanner\Service\ExportService as ExportService;
  */
 class RoboFile extends \Robo\Tasks
 {
+    private $another_container;
     
     /**
      * The constructor.
@@ -42,6 +43,12 @@ class RoboFile extends \Robo\Tasks
         $dbFacade = $this->another_container->get(DatabaseFacade::class);
 		$dbFacade->createDatabase();
 		echo 'Setup task has been performed' . PHP_EOL;
+	}
+
+    public function migrate() {
+        $dbFacade = $this->another_container->get(DatabaseFacade::class);
+		$dbFacade->migrateDatabase();
+		echo 'Migrate task has been performed' . PHP_EOL;
 	}
 
 	public function generateSampleData() {

@@ -1,9 +1,12 @@
 <?php namespace BudgetPlanner\Lib;
 
+use \BudgetPlanner\Model\Migration as Migration;
+
 class DatabaseFacade
 {
     private $pdo = null;
     public $config = null;
+    private $dbSettings;
 
     public function __construct(\PDO $pdo, array $config, array $dbSettings)
     {
@@ -25,12 +28,13 @@ class DatabaseFacade
 
         // For initial setup, just run all scripts
         foreach ($scripts as $version => $script) {
+            
             $this->runSqlScript($script);
             
-            /*$migration = \ORM::for_table('migration')->create();
+            $migration = new Migration();
             $migration->version = $version;
             $migration->executed = time();
-            $migration->save();*/
+            $migration->save();
         }
 
         $this->pdo->commit();
@@ -39,27 +43,28 @@ class DatabaseFacade
     public function migrateDatabase()
     {
         $currentVersion = $this->getCurrentVersion();
+        
         $scripts = $this->config['databases_setup_scripts'];
 
         $this->createMigrationTable();
 
         // TODO: Integration tests for each consecutive migration scenario
         foreach ($scripts as $version => $script) {
+
             if ($version <= $currentVersion) {
                 continue;
             }
-
-
+            
             $this->runSqlScript($script);
             
-            /*$migration = \ORM::for_table('migration')->create();
+            $migration = new Migration();
             $migration->version = $version;
             $migration->executed = time();
-            $migration->save();*/
+            $migration->save();
         }
     }
 
-    /*public function isMigrationNeeded()
+    public function isMigrationNeeded()
     {
         return $this->getCurrentVersion() < $this->getHighestVersion();
     }
@@ -67,7 +72,7 @@ class DatabaseFacade
     public function getCurrentVersion()
     {
         try {
-            return \ORM::for_table('migration')->max('version');
+            return Migration::max('version');
         } catch (\Exception $e) {
             return 0;
         }
@@ -77,7 +82,7 @@ class DatabaseFacade
     {
         $versions = array_keys($this->config['databases_setup_scripts']);
         return max($versions);
-    }*/
+    }
 
     // SQLite hack (eloquent will complain if file doesn't exist, move db facade)
     private function createDatabaseFile() {
