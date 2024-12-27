@@ -18,15 +18,12 @@ return function (App $app) {
 
             $group->get('', BudgetPlanner\Actions\Category\ListAction::class);
             $group->get('/new', BudgetPlanner\Actions\Category\EditFormAction::class);
-            $group->get('/{id}', BudgetPlanner\Actions\Category\EditFormAction::class);
+            $group->get('/{id}[/{detail:rules|transactions}]', BudgetPlanner\Actions\Category\EditFormAction::class);
             // TODO: Should be put, but cannot be natively sent by HTML form
             $group->post('', BudgetPlanner\Actions\Category\SaveAction::class);
             // TODO: Should be DELETE, but cannot be natively sent by HTML form
             $group->get('/{id}/delete', BudgetPlanner\Actions\Category\DeleteAction::class);
 
-            // Assignment Rules
-
-            $group->get('/{category_id}/rules', BudgetPlanner\Actions\AssignmentRules\ListAction::class);
             $group->get('/{category_id}/rules/new', BudgetPlanner\Actions\AssignmentRules\EditFormAction::class);
             $group->get('/{category_id}/rules/{rule_id}', BudgetPlanner\Actions\AssignmentRules\EditFormAction::class);
             // TODO: Should be put, but cannot be natively sent by HTML form

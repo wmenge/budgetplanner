@@ -11,6 +11,7 @@
 		<tr>
 			<th>Description</th>
 			<th>Parent</th>
+			<th>Transactions</th>
 			<th>Assignment Rules</th>
 			<th></th>
 		</tr>
@@ -21,10 +22,10 @@
 				<td><a href="/categories/<?= $category->id ?>"><?= @$category->description ?></a></td>
 				<td><?= @$category->parent->description ?></td>
 				<td>
-					<!--<?php foreach ($category->rules as $rule): ?>
-						<a href="/categories/<?= $category->id ?>/rules/<?= $rule->id ?>"><?= $rule->field ?> => /<?= $rule->pattern ?>/i</a><br />
-					<?php endforeach; ?>-->
-					<a href="/categories/<?= $category->id ?>"><?= count($category->rules) ?> rule(s)</a></td>
+					<a href="/categories/<?= $category->id ?>/transactions"><?= $category->transactions->count() ?> transaction(s)</a></td>
+				</td>
+				<td>
+					<a href="/categories/<?= $category->id ?>/rules"><?= $category->rules->count() ?> rule(s)</a></td>
 				</td>
 				<td>
 					<div class="btn-toolbar">

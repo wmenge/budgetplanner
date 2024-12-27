@@ -1,4 +1,4 @@
-<!--<h1 class="display-5">Transactions</h1>-->
+<!-- <h1 class="display-5">Transactions</h1> -->
 
 <form method="POST" action="/transactions/<?= @$filter ?>/match">
 
@@ -33,10 +33,12 @@
 			<th><a href='?sort=counter_account_iban'>Counter Account</a></th>
 			<th style="width: 10%"><a href='?sort=description'>Description</a></th>
 			<th style="width: 10%"><a href='?sort=additional_description'>Additional Description</a></th>
-			<th style="width: 60%"><a href='?sort=category_id'>Category</a></th>
+			<?php if (isset($categories)): ?>
+				<th style="width: 60%"><a href='?sort=category_id'>Category</a></th>
+			<?php endif; ?>
 			<th><a href='?sort=date'>Date</a></th>
 			<th><a href='?sort=amount'>Amount</a></th>
-			<th></th>
+			<!-- <th></th> -->
 		</tr>
 	</thead>
 	<tbody>
@@ -53,26 +55,27 @@
 				<td><?= implode('<br />', array_filter([ @$transaction->counter_account_iban_formatted(),  @$transaction->counter_account_name])) ?></td>
 				<td><?= @$transaction->description ?></td>
 				<td><?= @$transaction->additional_description ?></td>
-				<td>
-					<select name="category_id[<?= $transaction->id ?>]" class="form-select" aria-label="Default select example">
-				  		<option <?= (!@$category->parent) ? "selected" : "" ?> value=""></option>
-					  	<?php foreach ($categories as $category): ?>
-							  <option <?= $category->id == @$transaction->category_id ? "selected" : "" ?> value="<?= $category->id ?>"><?= $category->description ?></option>
-						  <?php endforeach; ?>
-					  </select>
-
-				</td>
+				<?php if (isset($categories)): ?>
+					<td>
+						<select name="category_id[<?= $transaction->id ?>]" class="form-select" aria-label="Default select example">
+							<option <?= (!@$category->parent) ? "selected" : "" ?> value=""></option>
+							<?php foreach ($categories as $category): ?>
+								<option <?= $category->id == @$transaction->category_id ? "selected" : "" ?> value="<?= $category->id ?>"><?= $category->description ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				<?php endif; ?>
 				<td><?= date('d-m-yy', $transaction->date) ?></td>
 				<td class="text-end"><a href="/transactions/<?= $transaction->id ?>"><?= @$transaction->amount_formatted() ?>&nbsp;<?= @$transaction->sign ?></a>
 				</td>
-				<td>
+				<!-- <td>
 					<div class="btn-toolbar">
 						<div class="btn-group">
 							
 							<a class="btn btn-outline-secondary btn-sm" href="/transactions/<?= $transaction->id ?>/delete" role="button">Delete</a>
 						</div>
 					</div>
-				</td>
+				</td> -->
 			</tr>
 		<?php endforeach; ?>
 	</tbody>

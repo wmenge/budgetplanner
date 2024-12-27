@@ -1,4 +1,4 @@
-<h1 class="display-5">Assignment Rules</h1>
+<!-- <h1 class="display-5">Assignment Rules</h1> -->
 
 <div class="btn-toolbar">
   <div class="btn-group">

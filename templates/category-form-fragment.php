@@ -23,4 +23,26 @@
 
 </form>
 
-<?= $this->fetch("assignment-rules-list-fragment.php", [ 'category' => $category ]); ?>
+
+<hr/>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link <?= @$detail=='rules' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/rules">
+      Rules <span class="badge bg-secondary"><?= @$category->rules->count() ?></span></a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link <?= @$detail=='transactions' ? 'active' : ''?> aria-current="page" href="/categories/<?= @$category->id ?>/transactions">
+    Transactions <span class="badge bg-secondary"><?= @$category->transactions->count() ?></span></a>
+  </li>
+</ul>
+
+<hr/>
+
+<?php if(@$detail=='rules'): ?>
+  <?= $this->fetch("assignment-rules-list-fragment.php", [ 'category' => $category ]); ?>
+<?php endif; ?>
+
+<?php if(@$detail=='transactions'): ?>
+  <?= $this->fetch("transaction-list-fragment.php", [ 'transactions' => $category->transactions ]); ?>
+<?php endif; ?>
