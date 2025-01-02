@@ -4,6 +4,7 @@ namespace BudgetPlanner\Actions\Reporting;
 
 use BudgetPlanner\Actions\BaseRenderAction;
 use Illuminate\Database\Capsule\Manager as DB;
+use \BudgetPlanner\Model\CategoryTreeItem;
 
 final class ReportAction extends BaseRenderAction
 {
@@ -11,6 +12,7 @@ final class ReportAction extends BaseRenderAction
 
     	$type = $request->getAttribute('type', 'periods');
     	$month = $request->getAttribute('month', date("Y-m"));
+		$category_id = $request->getAttribute('category_id');
     	
     	$yearQuery = <<<QUERY
 			select distinct strftime('%Y', datetime(date, 'unixepoch', 'localtime')) as period
@@ -30,6 +32,8 @@ final class ReportAction extends BaseRenderAction
         	'type' => $type,
         	'years' => $years,
         	'months' => $months,
-        	'month' => $month ]);
+        	'month' => $month,
+			'category_id' => $category_id,
+			'categories_tree' => CategoryTreeItem::orderBy('breadcrump')->get() ]);
     }
 }

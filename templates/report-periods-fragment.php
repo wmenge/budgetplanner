@@ -4,6 +4,16 @@
 
 <script>
 
+state = {
+    filter: {
+      //sign: '<?= $type == 'expenses' ? '-' : '+' ?>',
+      category_id: '',
+      //month: monthSelect.value,  
+    },
+    data: null
+  };
+
+
   const colorScheme = [
     "#25CCF7","#FD7272","#54a0ff","#00d2d3",
     "#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e",
@@ -60,23 +70,37 @@
       var month = chartData.labels[index];
       var type = chartData.datasets[datasetIndex].label;
 
-      document.location = `/reporting/${type}/${month}`.toLowerCase();
+      url = `/reporting/${type}/${month}`.toLowerCase();
+
+      if (state.filter.category_id) {
+        url += '/' + state.filter.category_id
+      }
+    
+      document.location = url;
     };
 
     return chart;
   }
 
-  // Get data
-  function fetchData(category, chart, time) {
+  function filter(select) {
+      console.log(select.name + " has changed. The new value is: " + select.value);
+      state.filter.category_id = select.value;
+      fetchData(state.filter);
+  }
 
-// /..type = '<?= $type ?>';
-    
+  // Get data
+  function fetchData() {
+
     /*url = 
       "/api/reporting/categories" + 
       (category ? "/" + category : "") + 
       '?sign=' + (type == 'expenses' ? '-' : '%2B');*/
 
     url = "/api/reporting/periods"
+
+    if (state.filter.category_id) {
+      url += "?category_id=" + state.filter.category_id
+    }
 
     console.log(url);
 
@@ -90,11 +114,8 @@
 
         labels = labels.filter((item, index) => labels.indexOf(item) == index);
 
-        //console.log(labels);
-
         var dataIncome = data.filter(i => (i.sign == '+')).map(i => i.sum);
         var dataExpenses = data.filter(i => (i.sign == '-')).map(i => i.sum);
-
 
         if (data.length > 0) {
           chart.data.labels = labels;
@@ -103,10 +124,10 @@
           chart.data.datasets.push({ label: 'Income', data: dataIncome, backgroundColor: window.chartColors.blue });
           chart.data.datasets.push({ label: 'Expenses', data: dataExpenses, backgroundColor: window.chartColors.red });
           
-          chart.update(time);
+          chart.update(500);
           history.pushState({ labels: labels, data: data }, '');  
         } else {
-          window.location = '/transactions/categorized/' + category;
+       ///   window.location = '/transactions/categorized/' + category;
         }
 
       });
@@ -116,6 +137,8 @@
     //chart.data.datasets[0].data = data;
     //chart.data.datasets.push({ label: label, data: data, backgroundColor: 'red' });
   }
+
+  select = document.getElementById("category_id");
 
   chart = setup();
   fetchData(null, chart, 500);

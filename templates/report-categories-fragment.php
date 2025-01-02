@@ -8,7 +8,7 @@
   state = {
     filter: {
       sign: '<?= $type == 'expenses' ? '-' : '+' ?>',
-      category_id: '',
+      category_id: '<?= @$category_id ?>',
       month: monthSelect.value,  
     },
     data: null
@@ -56,11 +56,11 @@
   function filter(select) {
       console.log(select.name + " has changed. The new value is: " + select.value);
       state.filter.month = select.value;
-      fetchData(state.filter);
+      fetchData();
   }
 
   // Get data
-  function fetchData(filter) {
+  function fetchData() {
     url = buildUrl('/api/reporting/categories', state.filter);
     fethDataFromUrl(url);
   }

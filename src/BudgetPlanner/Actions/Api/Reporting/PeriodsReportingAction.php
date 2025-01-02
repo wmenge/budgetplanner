@@ -19,6 +19,8 @@ final class PeriodsReportingAction
 {
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
+		$params = $request->getQueryParams();
+
     	$query = <<<QUERY
 			select strftime('%Y-%m', datetime(date, 'unixepoch', 'localtime')) as period, sign, sum(amount) as sum
 			from transactions
@@ -29,8 +31,22 @@ final class PeriodsReportingAction
 			group by period, sign
 		QUERY;
 
-		$data = DB::select(DB::raw($query)->getValue(DB::connection()->getQueryGrammar()));
-        $payload = json_encode($data, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
+    	$query = DB::table('transactions')
+			->select(DB::raw('strftime(\'%Y-%m\', datetime(date, \'unixepoch\', \'localtime\')) as period, sign, sum(amount) as sum'))
+			->whereNotIn('transactions.counter_account_iban', function($query) {
+               $query->select('iban')->from('accounts');
+            })
+			->groupBy('period', 'sign');
+			
+		if (isset($params['category_id'])) {
+			$query = $query
+				->leftJoin('categories_tree', 'transactions.category_id', '=', 'categories_tree.id')
+				->where('categories_tree.path', 'like', DB::raw('"%\'' . $params['category_id'] . '\'%"'));
+		}
+
+		$data = $query->get();
+
+		$payload = json_encode($data, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 
 		$response->getBody()->write($payload);
 		return $response->withHeader('Content-Type', 'application/json');
