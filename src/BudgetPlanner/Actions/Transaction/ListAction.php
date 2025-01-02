@@ -62,6 +62,7 @@ final class ListAction extends BaseRenderAction
             'categories' => isset($args['id']) ? 
                 CategoryTreeItem::where('id', '<>', $args['id'])->orderBy('breadcrump')->get() : 
                 CategoryTreeItem::orderBy('breadcrump')->get(),
+            'categories_tree' => CategoryTreeItem::orderBy('breadcrump')->get(),
             'match' => $match
         ]);
     }

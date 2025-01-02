@@ -22,7 +22,9 @@ final class MatchAction
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
     	$data = $request->getParsedBody();
-    	$filter = $request->getAttribute('filter', 'uncategorized');
+    	//$filter = $request->getAttribute('filter', 'uncategorized');
+
+        $referer = $headerStringValue = $_SERVER['HTTP_REFERER'];
 
         $matchedTransactions = array_filter($data['category_id'], function($var) { return !empty($var); });
 
@@ -35,7 +37,7 @@ final class MatchAction
 
         $this->flash->addMessage('success', sprintf('updated %s transactions', count($matchedTransactions)));
 
-        return $response->withHeader('Location', '/transactions/' . $filter)
+        return $response->withHeader('Location', $referer)
                 ->withStatus(303);
     }
 }

@@ -1,4 +1,42 @@
-<form method="POST" action="/transactions/<?= @$filter ?>/match">
+<script>
+
+	function toggleSelection(headerCheckBox) {
+		console.log(headerCheckBox)
+		var checkboxes = document.querySelectorAll('input[type=checkbox]')
+
+		console.log(checkboxes.length);
+
+		checkboxes.forEach((box) => { 
+			console.log(box);
+			box.checked = headerCheckBox.checked;
+		});
+	}
+
+	function updateSelectedTransactions(categorySelect) {
+		//alert(categorySelect.value)
+
+		var array = []
+		var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+		for (var i = 0; i < checkboxes.length; i++) {
+			console.log(checkboxes[i].value);
+
+			if (checkboxes[i].value) {
+			
+				var transactionCategorySelect = document.getElementById(checkboxes[i].value);
+
+				console.log(transactionCategorySelect);
+				transactionCategorySelect.value = categorySelect.value;			
+			}
+		}
+	}
+
+	function enabled() {
+		document.querySelectorAll('input[type=checkbox]').length > 0;
+	}
+
+</script>
+<form method="POST" action="/transactions/match">
 
 <?php if (isset($filter)): ?>
 
@@ -23,6 +61,67 @@
       <a class="btn btn-primary btn-sm" href="/transactions/<?= @$filter ?>/match" role="button">Match transactions</a>
     <?php endif; ?>
   </li>
+
+
+  <li class="nav-item">
+
+  <li class="nav-item">
+      <div class="">
+        <div class="">
+          <div class="form-floating">
+            <select id="category_id" name="category_id" class="form-select" onchange="updateSelectedTransactions(this)">
+              <option value="">Choose a Category</option>
+              <?php foreach ($categories_tree as $tree_item): ?>
+                <option <?= $tree_item->id == @$category->parent_id ? "selected" : "" ?> value="<?= $tree_item->id ?>"><?= str_repeat('&nbsp', $tree_item->level * 5) . $tree_item->description ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label for="floatingSelect">Category</label>
+          </div>
+        </div>
+      </div>
+    </li>
+
+	<li class="nav-item">
+	  <button type="submit" class="btn btn-primary btn-sm">Save</button>
+  </li>
+    
+
+  </li>
+
+</ul>
+
+<?php else: ?>
+
+	<ul class="nav nav-tabs">
+
+
+
+  <li class="nav-item">
+
+  <li class="nav-item">
+      <div class="">
+        <div class="">
+          <div class="form-floating">
+            <select id="category_id" name="category_id" class="form-select" onchange="updateSelectedTransactions(this)">
+              <option value="">Choose a Category</option>
+              <?php foreach ($categories_tree as $tree_item): ?>
+                <option <?= $tree_item->id == @$category->parent_id ? "selected" : "" ?> value="<?= $tree_item->id ?>"><?= str_repeat('&nbsp', $tree_item->level * 5) . $tree_item->description ?></option>
+              <?php endforeach; ?>
+            </select>
+            <label for="floatingSelect">Category</label>
+          </div>
+        </div>
+      </div>
+    </li>
+
+	<li class="nav-item">
+	  <button type="submit" class="btn btn-primary btn-sm">Save</button>
+  </li>
+    
+	  
+    
+  </li>
+
 </ul>
 
 <?php endif; ?>
@@ -30,7 +129,7 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
-			<!--<th><input class="form-check-input" type="checkbox" value="" id="select" name="select"></th>-->
+			<th><input class="form-check-input" type="checkbox" value="" id="select" name="select" onchange="toggleSelection(this)"></th>
 			<th><a href='?sort=account_id'>Account</a></th>
 			<th><a href='?sort=counter_account_iban'>Counter Account</a></th>
 			<th style="width: 10%"><a href='?sort=description'>Description</a></th>
@@ -46,9 +145,9 @@
 	<tbody>
 		<?php foreach ($transactions as $transaction): ?>
 			<tr class="<?= $transaction->ownAccount ? 'table-secondary text-muted' : '' ?>">
-				<!--<td><input class="form-check-input" type="checkbox" value="" id="select" name="select"></td>-->
+				<td><input class="form-check-input" type="checkbox" value="category_id[<?= $transaction->id ?>]" id="select[<?= $transaction->id ?>]" name="select[<?= $transaction->id ?>]"></td>
 				<td>
-					<?=  ($transaction->account) ? $transaction->account->iban_formatted() : "" ?> <br /><?= $transaction->account->holder ?>
+					<?= ($transaction->account) ? $transaction->account->iban_formatted() : "" ?> <br /><?= $transaction->account->holder ?>
 					<?php foreach ($transaction->tags as $tag): ?>
 					  <span class="badge bg-primary"><?= $tag->description ?></span>
 				  	<?php endforeach; ?>
@@ -59,7 +158,7 @@
 				<td><?= @$transaction->additional_description ?></td>
 				<?php if (isset($categories)): ?>
 					<td>
-						<select name="category_id[<?= $transaction->id ?>]" class="form-select" aria-label="Default select example">
+						<select name="category_id[<?= $transaction->id ?>]" id="category_id[<?= $transaction->id ?>]" class="form-select" aria-label="Default select example">
 							<option <?= (!@$category->parent) ? "selected" : "" ?> value=""></option>
 							<?php foreach ($categories as $category): ?>
 								<option <?= $category->id == @$transaction->category_id ? "selected" : "" ?> value="<?= $category->id ?>"><?= $category->description ?></option>

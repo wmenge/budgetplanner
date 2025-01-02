@@ -38,16 +38,16 @@
   
   <input type="hidden" name="id" value="<?= @$transaction->id ?>" />
     
-  <div class="smmb-3">
+  <div class="mb-3">
   	<label for="category_id" class="form-label">Category</label>
     <select name="category_id" class="form-select" aria-label="Default select example">
-  		<option <?= (!@$transaction->category) ? "selected" : "" ?>Select a category</option>
-	  	<?php foreach ($categories as $category): ?>
-			  <option <?= $category == @$transaction->category ? "selected" : "" ?> value="<?= $category->id ?>"><?= $category->description ?></option>
+  		<option <?= (!@$transaction->category) ? "selected" : "" ?> value="">Select a category</option>
+	  	<?php foreach ($categories_tree as $tree_item): ?>
+			  <option <?= $tree_item->id == @$transaction->category->id ? "selected" : "" ?> value="<?= $tree_item->id ?>"><?= str_repeat('&nbsp', $tree_item->level * 5) . $tree_item->description ?></option>
 		  <?php endforeach; ?>
 	  </select>
   </div>
-
+  
   <div class="mb-3">
     <label for="additional_description" class="form-label">Additional Description</label>
     <input type="text" class="form-control" name="additional_description" value="<?= @$transaction->additional_description ?>"/>

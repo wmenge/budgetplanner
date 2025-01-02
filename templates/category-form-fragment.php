@@ -10,7 +10,7 @@
 
 <?php endif; ?>
 
-<h1 class="display-5"><?= @$category->exists ? "Edit" : "New" ?> Category</h1>
+<h1 class="display-5"><?= @$catcegory->exists ? "Edit" : "New" ?> Category</h1>
 
 <form method="POST" action="/categories">
   
@@ -22,7 +22,7 @@
   </div>
   
   <div class="mb-3">
-  	<label for="description" class="form-label">Parent</label>
+  	<label for="parent_id" class="form-label">Parent</label>
     <select name="parent_id" class="form-select" aria-label="Default select example">
   		<option <?= (!@$category->parent) ? "selected" : "" ?> value="">Select a parent category</option>
 	  	<?php foreach ($categories_tree as $tree_item): ?>
@@ -61,7 +61,7 @@
   <?php endif; ?>
 
   <?php if(@$detail=='transactions'): ?>
-    <?= $this->fetch("transaction-list-fragment.php", [ 'transactions' => $category->transactions ]); ?>
+    <?= $this->fetch("transaction-list-fragment.php", [ 'transactions' => $category->transactions, 'categories' => $categories, 'categories_tree' => $categories_tree]); ?>
   <?php endif; ?>
 
   <?php if(@$detail=='categories'): ?>

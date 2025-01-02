@@ -67,7 +67,8 @@ return function (App $app) {
             $group->get('[/{filter:categorized|uncategorized|own-accounts}]', BudgetPlanner\Actions\Transaction\ListAction::class);
             
             $group->get('/{filter:categorized|uncategorized|own-accounts}/{match:match}', BudgetPlanner\Actions\Transaction\ListAction::class);
-            $group->post('/{filter:categorized|uncategorized|own-accounts}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
+            //$group->post('/{filter:categorized|uncategorized|own-accounts}/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
+            $group->post('/match', BudgetPlanner\Actions\Transaction\MatchAction::class);
             
             $group->get('/{id:[0-9]+}', BudgetPlanner\Actions\Transaction\EditFormAction::class);
             // TODO: Should be put, but cannot be natively sent by HTML form
@@ -84,7 +85,7 @@ return function (App $app) {
 
         // Reporting
 
-        $group->get('/reporting[/{type:expenses|income|periods}[/{month}]]', BudgetPlanner\Actions\Reporting\ReportAction::class);
+        $group->get('/reporting[/{type:expenses|income|periods}[/{month}[/{category_id}]]]', BudgetPlanner\Actions\Reporting\ReportAction::class);
 
         $group->get('/api/reporting/categories', BudgetPlanner\Actions\Api\Reporting\CategoriesReportingAction::class);
         $group->get('/api/reporting/periods', BudgetPlanner\Actions\Api\Reporting\PeriodsReportingAction::class);
